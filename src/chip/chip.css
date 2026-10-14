@@ -1,0 +1,108 @@
+/* =====================================================================
+   Chip — animation and colour.
+   Frames swap with steps() so the motion stays pixel-honest (no tweening).
+   One SVG unit = one Chip pixel, so translateY(-1px) lifts Chip by one pixel.
+   ===================================================================== */
+
+.chip {
+  display: block;
+  overflow: visible;
+  shape-rendering: crispEdges;
+  --chip-rate: 0.5s;
+}
+
+.chip .fb,
+.chip .chip-eyes--blink {
+  opacity: 0;
+}
+
+/* On a dark surface the line work flips to paper; the body stays white. */
+.on-dark .chip {
+  --chip-metal: #f4f1e8;
+  --chip-mark: #f4f1e8;
+  --chip-ground: rgba(244, 241, 232, 0.12);
+}
+
+.chip .chip-eyes--happy { opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Two-frame poses only animate in bursts (Chip.jsx toggles .is-moving). */
+  .chip.is-on.is-moving .fa { animation: chip-a var(--chip-rate) steps(1, end) infinite; }
+  .chip.is-on.is-moving .fb { animation: chip-b var(--chip-rate) steps(1, end) infinite; }
+  .chip--fast { --chip-rate: 0.32s; }
+
+  /* Blinks are scheduled per Chip at irregular times. */
+  .chip.is-blink .chip-eyes--open { opacity: 0; }
+  .chip.is-blink .chip-eyes--blink { opacity: 1; }
+
+  /* Squint: a pleased little smile. On its own schedule, or when you hover. */
+  .chip.is-squint .chip-gaze,
+  .chip.is-happy .chip-gaze,
+  .chip.is-shy .chip-gaze { opacity: 0; }
+  .chip.is-squint .chip-eyes--happy,
+  .chip.is-happy .chip-eyes--happy,
+  .chip.is-shy .chip-eyes--happy { opacity: 1; }
+
+  .chip--bob.is-on.is-moving .chip-figure { animation: chip-bob 1s steps(1, end) infinite; }
+  .chip--hop.is-on.is-moving .chip-figure { animation: chip-hop 0.6s steps(1, end) infinite; }
+
+  /* Sleepers breathe slowly; their Zs drift. */
+  .chip--breathe.is-on .chip-figure { animation: chip-breathe 3.6s steps(1, end) infinite; }
+  .chip--breathe.is-on .chip-extra { animation: chip-drift 2.8s steps(1, end) infinite; }
+  .chip--think.is-on .chip-extra { animation: chip-ponder 3.4s steps(1, end) infinite; }
+  .chip--cheer .chip-extra { opacity: 0; }
+  .chip--cheer.is-on.is-moving .chip-extra { opacity: 1; animation: chip-blink-extra 0.6s steps(1, end) infinite; }
+
+  /* Idle moments, one at a time. */
+  .chip.act-hop .chip-act { animation: act-hop 0.56s steps(1, end); }
+  .chip.act-nod .chip-act { animation: act-nod 0.76s steps(1, end); }
+  .chip.act-wiggle .chip-act { animation: act-wiggle 0.52s steps(1, end); }
+  .chip.act-peek .chip-act { animation: act-peek 1.3s steps(1, end); }
+  .chip.act-glitch .chip-act { animation: act-glitch 0.46s steps(1, end); }
+  .chip.act-glitch .chip-face { animation: act-glitch-face 0.46s steps(1, end); }
+  .chip.is-shy .chip-act { transform: translateY(2px); }
+
+  /* Power-on: lines draw, then the face flickers on like a screen waking up. */
+  .chip--boot.is-on .chip-face { animation: chip-boot 1.4s steps(1, end) both; }
+  .chip--boot.is-on .chip-body { animation: chip-boot-body 1.4s steps(1, end) both; }
+
+  /* The 16px mini Chip keeps a simple CSS blink. */
+  .chip-mini.is-on .chip-eyes--open { animation: chip-blink-open 5.3s steps(1, end) infinite; }
+  .chip-mini.is-on .chip-eyes--blink { animation: chip-blink-shut 5.3s steps(1, end) infinite; }
+  .chip-mini.is-on .fa { animation: chip-a var(--chip-rate) steps(1, end) infinite; }
+  .chip-mini.is-on .fb { animation: chip-b var(--chip-rate) steps(1, end) infinite; }
+}
+
+@keyframes chip-breathe { 0%, 100% { transform: none; } 55% { transform: translateY(1px); } }
+@keyframes chip-drift {
+  0% { transform: none; opacity: 1; }
+  33% { transform: translate(1px, -1px); }
+  66% { transform: translate(0, -2px); opacity: 0.6; }
+}
+@keyframes chip-ponder { 0%, 70% { transform: none; } 78% { transform: translateY(-1px); } 86% { transform: none; } 92% { transform: translateY(-1px); } }
+@keyframes act-hop { 0% { transform: translateY(-1px); } 20% { transform: translateY(-3px); } 50% { transform: translateY(-2px); } 75% { transform: translateY(-1px); } 90% { transform: translateY(1px); } 100% { transform: none; } }
+@keyframes act-nod { 0% { transform: translateY(1px); } 25% { transform: none; } 50% { transform: translateY(1px); } 75%, 100% { transform: none; } }
+@keyframes act-wiggle { 0% { transform: translateX(-1px); } 25% { transform: translateX(1px); } 50% { transform: translateX(-1px); } 75% { transform: translateX(1px); } 100% { transform: none; } }
+@keyframes act-peek { 0% { transform: translateY(1px); } 10% { transform: translateY(3px); } 70% { transform: translateY(2px); } 85% { transform: translateY(1px); } 100% { transform: none; } }
+@keyframes act-glitch { 0% { transform: translateX(2px); } 15% { transform: translateX(-1px); } 30% { transform: none; } 55% { transform: translateX(-2px); } 70%, 100% { transform: none; } }
+@keyframes act-glitch-face { 0% { transform: translateX(-1px); opacity: 0.4; } 20% { transform: translateX(1px); opacity: 1; } 45% { opacity: 0; } 55% { transform: none; opacity: 1; } 100% { transform: none; } }
+@keyframes chip-a { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes chip-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+@keyframes chip-blink-open { 0%, 100% { opacity: 1; } 93% { opacity: 0; } 96% { opacity: 1; } }
+@keyframes chip-blink-shut { 0%, 100% { opacity: 0; } 93% { opacity: 1; } 96% { opacity: 0; } }
+@keyframes chip-bob { 0% { transform: none; } 50% { transform: translateY(-1px); } }
+@keyframes chip-hop { 0% { transform: none; } 50% { transform: translateY(-3px); } }
+@keyframes chip-blink-extra { 0% { opacity: 1; } 70% { opacity: 0.35; } }
+@keyframes chip-boot {
+  0%, 30% { opacity: 0; }
+  40% { opacity: 1; }
+  48% { opacity: 0; }
+  56% { opacity: 1; }
+  62% { opacity: 0.2; }
+  70%, 100% { opacity: 1; }
+}
+@keyframes chip-boot-body {
+  0% { opacity: 0; transform: translateY(2px); }
+  10% { opacity: 1; transform: translateY(1px); }
+  20%, 100% { opacity: 1; transform: none; }
+}

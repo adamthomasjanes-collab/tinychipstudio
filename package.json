@@ -1,0 +1,23 @@
+{
+  "name": "tiny-chip-studio",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "node scripts/cities.mjs && vite build && node scripts/prerender.mjs",
+    "preview": "vite preview --host 0.0.0.0",
+    "format": "prettier --write \"src/**/*.{js,jsx,css}\" index.html",
+    "brand": "node scripts/brand.mjs",
+    "cities": "node scripts/cities.mjs"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "prettier": "^3.3.3",
+    "vite": "^5.4.15"
+  }
+}

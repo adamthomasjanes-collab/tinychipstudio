@@ -1,0 +1,9 @@
+/* TEAM */
+Founder, design & development: Adam Thomas Janes
+Operations & client relations: Sarah Rose Janes
+Contact: https://www.tinychipstudio.com/#contact
+From: Tiffin, Ohio
+
+/* SITE */
+Frontend: React and Vite, prerendered to static HTML
+Mascot: Chip (say hi)

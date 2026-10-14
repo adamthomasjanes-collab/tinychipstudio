@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /badge/
+
+Sitemap: https://www.tinychipstudio.com/sitemap.xml

@@ -1,0 +1,52 @@
+# Tiny Chip Studio has its own Netlify site (www.tinychipstudio.com) with
+# "Base directory" set to tinychipstudio. Netlify reads this file from there.
+
+[build]
+  # Netlify installs dependencies from package-lock.json automatically first.
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# The scorecard and call booking live inside the page (#scorecard, #book-call).
+# Old shared links keep working.
+[[redirects]]
+  from = "/scorecard"
+  to = "/#scorecard"
+  status = 301
+[[redirects]]
+  from = "/scorecard/"
+  to = "/#scorecard"
+  status = 301
+[[redirects]]
+  from = "/book"
+  to = "/#book-call"
+  status = 301
+
+# Everything else that isn't a real file gets the friendly 404 page.
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+
+# The badge demo page is for copy-paste, not for search results.
+[[headers]]
+  for = "/badge/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, follow"
+
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Access-Control-Allow-Origin = "*"
