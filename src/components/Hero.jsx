@@ -1,108 +1,233 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { startInquiry } from "../lib/inquiry";
-import "./key-hero.css";
+import "./browser-hero.css";
 
-export default function Hero() {
-  const track = useRef(null);
-  const stage = useRef(null);
+const widths = [390, 560, 760, 1000, 1280];
+const min = widths[0];
+const max = widths[widths.length - 1];
+const asset = (name) => "/assets/work/chief-demo/" + name + ".webp";
+
+function BrowserDemo() {
+  const [width, setWidth] = useState(max);
+  const [booking, setBooking] = useState(false);
+  const [manual, setManual] = useState(false);
+  const area = useRef(null);
+
+  const drag = useRef(null);
+  const capture = widths.reduce(
+    (best, candidate) =>
+      Math.abs(width - candidate) < Math.abs(width - best) ? candidate : best,
+    max,
+  );
+  const phone = width === min;
+
+  function resize(value) {
+    setManual(true);
+    setBooking(false);
+    setWidth(Math.round(Math.max(min, Math.min(max, value))));
+  }
 
   useEffect(() => {
-    const section = track.current;
-    const panel = stage.current;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let pending = 0;
-    function paint() {
-      pending = 0;
-      const distance = section.offsetHeight - panel.offsetHeight;
-      // Measure against the sticky inset, including the site's existing header.
-      const inset = parseFloat(getComputedStyle(panel).top) || 0;
-      const progress =
-        distance > 0
-          ? Math.max(
-              0,
-              Math.min(
-                1,
-                (inset - section.getBoundingClientRect().top) / distance,
-              ),
-            )
-          : 1;
-      const frame = reduced.matches ? 35 : Math.round(progress * 35);
-      panel.style.setProperty("--key-x", (frame % 6) * 20 + "%");
-      panel.style.setProperty("--key-y", Math.floor(frame / 6) * 20 + "%");
-      panel.style.setProperty(
-        "--chip-show",
-        reduced.matches ? 1 : Math.max(0, Math.min(1, (progress - 0.52) * 5)),
+    if (manual) return;
+    const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    let raf, start;
+    function animate(now) {
+      start ??= now;
+      const elapsed = now - start;
+      const progress = Math.min(1, Math.max(0, (elapsed - 1600) / 1700));
+      setWidth(
+        Math.round(
+          max - (max - min) * progress * progress * (3 - 2 * progress),
+        ),
       );
+      if (elapsed < 4400) raf = requestAnimationFrame(animate);
+      else setBooking(true);
     }
-    function update() {
-      if (!pending) pending = requestAnimationFrame(paint);
-    }
-    const observer = new ResizeObserver(update);
-    observer.observe(section);
-    paint();
-    window.addEventListener("scroll", update, { passive: true });
-    reduced.addEventListener("change", update);
+    const stop = () => cancelAnimationFrame(raf);
+    const observer = new IntersectionObserver(([entry]) => {
+      stop();
+      if (entry.isIntersecting && !motion.matches) {
+        start = undefined;
+        raf = requestAnimationFrame(animate);
+        observer.disconnect();
+      }
+    });
+    observer.observe(area.current);
+    motion.addEventListener("change", stop);
     return () => {
-      window.removeEventListener("scroll", update);
-      reduced.removeEventListener("change", update);
       observer.disconnect();
-      cancelAnimationFrame(pending);
+      stop();
+      motion.removeEventListener("change", stop);
     };
-  }, []);
+  }, [manual]);
+
+  function beginDrag(event) {
+    const boardWidth = area.current.getBoundingClientRect().width;
+    const phoneFraction = Number(
+      getComputedStyle(area.current).getPropertyValue("--phone-fraction"),
+    );
+    drag.current = {
+      x: event.clientX,
+      width,
+      pixelsPerUnit: (boardWidth * (1 - phoneFraction)) / (max - min),
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setManual(true);
+  }
+  function keyResize(event) {
+    const targets = {
+      ArrowLeft: width - 50,
+      ArrowRight: width + 50,
+      Home: min,
+      End: max,
+    };
+    if (event.key in targets) {
+      event.preventDefault();
+      resize(targets[event.key]);
+    }
+  }
 
   return (
-    <section
-      className="key-track"
-      ref={track}
-      id="top"
-      data-guide="hero"
-      aria-labelledby="key-title"
-    >
-      <div className="key-stage" ref={stage}>
-        <div className="key-copy">
-          <p className="key-kicker">Independent web design · Tiffin, Ohio</p>
-          <h1 id="key-title">
-            Make it easy
-            <br />
-            to <em>choose you.</em>
-          </h1>
-          <p className="key-deck">
-            Your next customer is on your website. I design the path from “Do
-            they do what I need?” to “Let’s talk.”
-          </p>
-          <div className="hero-actions">
-            <a
-              className="button button-lime"
-              href="#contact"
-              onClick={(event) => {
-                event.preventDefault();
-                startInquiry({ need: "Not sure yet", source: "hero" });
-              }}
-            >
-              Talk about my website ↗
-            </a>
-            <a className="key-work" href="#clients">
-              See client work ↓
-            </a>
+    <figure className="project-demo">
+      <div className="demo-heading">
+        <span>Client work</span>
+        <a
+          href="https://chiefdjrocks.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Visit CHIEF DJ ↗
+        </a>
+      </div>
+      <div className="demo-board" ref={area}>
+        <div className="wire" aria-hidden="true">
+          <i />
+          <i />
+          <b />
+        </div>
+        <div
+          className="demo-window"
+
+          style={{ "--viewport-progress": (width - min) / (max - min) }}
+        >
+          <div className="demo-chrome" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+            <span>chiefdjrocks.com</span>
+          </div>
+          <div className="demo-screen">
+            <img
+              className="site-capture"
+              src={asset(booking ? "form" : capture)}
+              alt={
+                booking
+                  ? "Blank Booking Inquiry form on the CHIEF DJ website"
+                  : "CHIEF DJ homepage at a responsive viewport width"
+              }
+            />
+            {phone && !booking && (
+              <button
+                className="demo-book"
+                aria-label="Preview the CHIEF DJ booking form"
+                onClick={() => {
+                  setManual(true);
+                  setBooking(true);
+                }}
+              >
+                <img src="/brand/crew-chip.svg" alt="" />
+              </button>
+            )}
+          </div>
+          <div
+            className="demo-handle"
+            role="slider"
+            tabIndex={0}
+            aria-label="Resize the CHIEF DJ website preview"
+            aria-valuemin={min}
+            aria-valuemax={max}
+            aria-valuenow={width}
+            aria-valuetext={width + " pixels"}
+            onKeyDown={keyResize}
+            onPointerDown={beginDrag}
+            onPointerMove={(event) => {
+              if (drag.current)
+                resize(
+                  drag.current.width +
+                    (event.clientX - drag.current.x) /
+                      drag.current.pixelsPerUnit,
+                );
+            }}
+            onLostPointerCapture={() => {
+              drag.current = null;
+            }}
+          >
+            <img src="/brand/crew-pixel.svg" alt="" />
+            <span aria-hidden="true">↔</span>
           </div>
         </div>
-        <figure className="key-shot">
-          <div
-            className="key-film"
-            role="img"
-            aria-label="A lime Contact key lifts, revealing Chip inside its mechanical socket."
-          >
-            <img
-              className="key-chip"
-              src="/brand/crew-chip.svg"
-              alt=""
-              width="32"
-              height="32"
-            />
-          </div>
-          <figcaption>Scroll to lift the key ↓</figcaption>
-        </figure>
       </div>
+      <figcaption>
+        <span>Drag Pixel to resize</span>
+        <div aria-label="Preview sizes">
+          <button aria-pressed={width === max} onClick={() => resize(max)}>
+            Desktop
+          </button>
+          <button aria-pressed={phone && !booking} onClick={() => resize(min)}>
+            Phone
+          </button>
+          <button
+            aria-pressed={booking}
+            onClick={() => {
+              resize(min);
+              setBooking(true);
+            }}
+          >
+            Booking
+          </button>
+        </div>
+      </figcaption>
+    </figure>
+  );
+}
+
+export default function Hero() {
+  return (
+    <section
+      className="browser-hero"
+      id="top"
+      data-guide="hero"
+      aria-labelledby="browser-title"
+    >
+      <div className="studio-intro">
+        <p className="studio-location">
+          Independent design studio · Tiffin, Ohio
+        </p>
+        <h1 id="browser-title">
+          Custom <em>websites</em>
+          <br />
+          for small
+          <br /> businesses.
+        </h1>
+        <p className="studio-deck">
+          Give your customers a clear path from “Do they do what I need?” to
+          “How do I book?”
+        </p>
+        <div className="hero-actions">
+          <a
+            className="button button-lime"
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              startInquiry({ need: "Not sure yet", source: "hero" });
+            }}
+          >
+            Talk about my website ↗
+          </a>
+          <a href="#clients">See client work ↓</a>
+        </div>
+      </div>
+      <BrowserDemo />
     </section>
   );
 }

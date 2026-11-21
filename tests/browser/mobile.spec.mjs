@@ -28,7 +28,7 @@ test('@mobile navigation, anchors, dismissal and resized landscape',async({page}
 test('@mobile all offers, inquiry qualification, validation, draft, error, fallback and success',async({page})=>{
   await page.addInitScript(()=>{window.qaEvents=[];window.gtag=(...args)=>window.qaEvents.push(args);});
   const errors=observeErrors(page);await page.goto('/');await ready(page);
-  await expect(page.locator('#key-title')).toContainText('choose you.');
+  await expect(page.locator('#browser-title')).toContainText('Custom websites');
   await expect(page.locator('[data-offer=website-care]')).toContainText('$2,364');expect(total).toBe(2364);expect(growthTotal).toBe(3564);
   await expect(page.locator('[data-offer=website-growth] .option-readiness')).toHaveText('SET UP AROUND YOUR BUSINESS' + growthAvailability);
   for(const detail of await page.locator('.option-inclusions').all()) {await detail.locator('summary').click();await expect(detail).toHaveAttribute('open','');await detail.locator('summary').click();}
