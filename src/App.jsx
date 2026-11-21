@@ -81,7 +81,7 @@ export default function App() {
         </a>
         <Header />
         <main id="main">
-          <Hero />
+          <Hero onOpen={openCase} />
           <Clients onOpen={openCase} />
           <Problem />
           <Work onOpen={openCase} />
