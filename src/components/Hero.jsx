@@ -29,7 +29,7 @@ export default function Hero({ onOpen }) {
           <a className="button button-lime" href="#contact" onClick={(event) => {
             event.preventDefault();
             startInquiry({ need: "Not sure yet", source: "hero" });
-          }}>Talk about my website ↗</a>
+          }}>Let’s talk about your website ↗</a>
           <a className="text-link" href="#website-options">See pricing ↓</a>
         </div>
         <aside className="hero-bug chief-notice" aria-hidden="true">
