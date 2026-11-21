@@ -1,28 +1,25 @@
-.chief-story {
-  position: relative;
-  z-index: 3;
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, .86fr);
-  gap: clamp(24px, 5vw, 80px);
+.chief-links {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  padding: clamp(20px, 3vw, 48px);
-  color: var(--paper);
-  background: var(--ink);
-  text-align: left;
+  gap: 0 1.5rem;
+  margin-block: 4px;
 }
-.chief-story h2 {
-  margin: 0;
-  font: 400 clamp(30px, 3vw, 54px)/1 var(--display);
+.chief-links a, .chief-links button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+  font: 700 1rem/1.4 var(--mono);
+  text-decoration: underline;
+  text-underline-offset: .23em;
+  cursor: pointer;
 }
-.chief-story h2 + p {
-  margin: 12px 0 18px;
-  line-height: 1.5;
-}
-.chief-story .client-quote { margin: 0; }
-@media (max-width: 760px) {
-  .chief-story { grid-template-columns: minmax(0, 1fr); }
-}
+.chief-feature .client-quote { margin: 0; }
+.chief-feature .hero-ba-cap { margin-top: 12px; }
 
 .hero .chief-notice {
   position: relative;

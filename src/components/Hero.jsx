@@ -38,26 +38,23 @@ export default function Hero({ onOpen }) {
           <small>It can have a personality.</small>
         </aside>
       </div>
-      <div className="hero-ba" ref={frame}>
-        <p className="hero-kicker">CHIEF DJ · Website redesign</p>
-        <BeforeAfter before={before} after={after} label="CHIEF DJ" url="chiefdjrocks.com" eager
-          sizes="(max-width: 900px) 94vw, 50vw" />
-        <p className="hero-ba-cap">Fans can find Steve’s next show. Event hosts can ask about a date.</p>
-      </div>
-      <article className="chief-story" aria-labelledby="chief-headline">
-        <div>
-          <p className="client-status">{chief.status} · {names(chief.sector)}</p>
-          <h2 id="chief-headline">{tidy(chief.headline)}</h2>
-          <p>{tidy(chief.summary)}</p>
-          <div className="client-actions">
-            <button type="button" className="button button-lime" onClick={(event) => onOpen(chief, event.currentTarget)}>Read case study ↑</button>
-            <a className="text-link" href={chief.url} target="_blank" rel="noopener noreferrer" data-track="client-open-chief-dj">Visit CHIEF DJ ↗<span className="visually-hidden"> (opens in a new tab)</span></a>
-          </div>
+      <article className="hero-ba chief-feature" aria-labelledby="chief-feature-title">
+        <h2 className="hero-kicker" id="chief-feature-title">CHIEF DJ · Website redesign</h2>
+        <div ref={frame}>
+          <BeforeAfter before={before} after={after} label="CHIEF DJ" url="chiefdjrocks.com" eager
+            sizes="(max-width: 900px) 94vw, 50vw" />
+        </div>
+        <div className="chief-links">
+          <a href={chief.url} target="_blank" rel="noopener noreferrer" data-track="client-open-chief-dj">
+            Visit Steve’s website ↗<span className="visually-hidden"> (opens in a new tab)</span>
+          </a>
+          <button type="button" onClick={(event) => onOpen(chief, event.currentTarget)}>Read the case study</button>
         </div>
         <figure className="client-quote">
           <blockquote><p>“{tidy(chief.quote.text)}”</p></blockquote>
           <figcaption>{names(chief.quote.by)}</figcaption>
         </figure>
+        <p className="hero-ba-cap">Fans can find Steve’s next show. Event hosts can ask about a date.</p>
       </article>
     </section>
   );
