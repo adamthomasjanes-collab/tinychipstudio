@@ -1099,7 +1099,7 @@ a:focus-visible {
 }
 
 .section-pad {
-  padding: 105px 5vw;
+  padding: clamp(64px, 6vw, 96px) 5vw;
 }
 
 .intro {

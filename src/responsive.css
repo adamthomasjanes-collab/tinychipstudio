@@ -197,9 +197,24 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* Client quotes are the clients' own words: set them as reading text, not as a
    shouted display headline. */
 .client-quote p { font: 600 clamp(19px, 1.5vw, 22px)/1.45 var(--mono); text-transform: none; letter-spacing: 0; }
-/* Three client sites sit in one row on wide screens instead of leaving an orphan. */
-@media (min-width: 1100px) { .client-more { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.client-more + .client-gallery-bridge { margin: 36px 0 0; }
+/* Give each project a complete row on tablets, where two columns leave a lone card. */
+@media (min-width: 701px) and (max-width: 959px) {
+  .client-more { grid-template-columns: 1fr; }
+  .client-card-hit {
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr auto;
+    column-gap: 20px;
+  }
+  .client-card-hit img { grid-row: 1 / 5; margin: 0; }
+}
+@media (min-width: 960px) {
+  .client-more { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.client-more + .client-gallery-bridge { margin: 24px 0 0; }
+@media (max-width: 700px) {
+  #top.hero--ba, .site-footer { padding-inline: 20px; }
+  .site-footer { padding-top: 64px; }
+}
 /* Services and Pricing share the cream background: a hard rule and less air
    between them so they read as two stops, not one long gap. */
 .services { padding-bottom: clamp(48px, 6vw, 72px); }
