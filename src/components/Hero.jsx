@@ -2,64 +2,34 @@ import React, { useEffect, useRef, useState } from "react";
 import { startInquiry } from "../lib/inquiry";
 import "./browser-hero.css";
 
-const widths = [390, 560, 760, 1000, 1280];
-const min = widths[0];
-const max = widths[widths.length - 1];
-const asset = (name) => "/assets/work/chief-demo/" + name + ".webp";
+const min = 390;
+const max = 1280;
+const crushUrl = "https://adamthomasjanes.com/crush/";
 
 function BrowserDemo() {
   const [width, setWidth] = useState(max);
-  const [booking, setBooking] = useState(false);
-  const [manual, setManual] = useState(false);
+  const [scale, setScale] = useState(null);
   const area = useRef(null);
-
+  const screen = useRef(null);
   const drag = useRef(null);
-  const capture = widths.reduce(
-    (best, candidate) =>
-      Math.abs(width - candidate) < Math.abs(width - best) ? candidate : best,
-    max,
-  );
   const phone = width === min;
 
-  function resize(value) {
-    setManual(true);
-    setBooking(false);
-    setWidth(Math.round(Math.max(min, Math.min(max, value))));
-  }
+  useEffect(() => {
+    if (matchMedia("(max-width: 500px)").matches) setWidth(min);
+  }, []);
 
   useEffect(() => {
-    if (manual) return;
-    const motion = matchMedia("(prefers-reduced-motion: reduce)");
-    let raf, start;
-    function animate(now) {
-      start ??= now;
-      const elapsed = now - start;
-      const progress = Math.min(1, Math.max(0, (elapsed - 1600) / 1700));
-      setWidth(
-        Math.round(
-          max - (max - min) * progress * progress * (3 - 2 * progress),
-        ),
-      );
-      if (elapsed < 4400) raf = requestAnimationFrame(animate);
-      else setBooking(true);
-    }
-    const stop = () => cancelAnimationFrame(raf);
-    const observer = new IntersectionObserver(([entry]) => {
-      stop();
-      if (entry.isIntersecting && !motion.matches) {
-        start = undefined;
-        raf = requestAnimationFrame(animate);
-        observer.disconnect();
-      }
-    });
-    observer.observe(area.current);
-    motion.addEventListener("change", stop);
-    return () => {
-      observer.disconnect();
-      stop();
-      motion.removeEventListener("change", stop);
-    };
-  }, [manual]);
+    const element = screen.current;
+    const measure = () => setScale(element.clientWidth / width);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [width]);
+
+  function resize(value) {
+    setWidth(Math.round(Math.max(min, Math.min(max, value))));
+  }
 
   function beginDrag(event) {
     const boardWidth = area.current.getBoundingClientRect().width;
@@ -72,7 +42,6 @@ function BrowserDemo() {
       pixelsPerUnit: (boardWidth * (1 - phoneFraction)) / (max - min),
     };
     event.currentTarget.setPointerCapture(event.pointerId);
-    setManual(true);
   }
   function keyResize(event) {
     const targets = {
@@ -90,13 +59,13 @@ function BrowserDemo() {
   return (
     <figure className="project-demo">
       <div className="demo-heading">
-        <span>Client work</span>
+        <span>Restaurant website concept</span>
         <a
-          href="https://chiefdjrocks.com/"
+          href={crushUrl}
           target="_blank"
           rel="noopener noreferrer"
         >
-          Visit CHIEF DJ ↗
+          Open Crush ↗
         </a>
       </div>
       <div className="demo-board" ref={area}>
@@ -114,36 +83,24 @@ function BrowserDemo() {
             <i />
             <i />
             <i />
-            <span>chiefdjrocks.com</span>
+            <span>Crush Wine Bar</span>
           </div>
-          <div className="demo-screen">
-            <img
-              className="site-capture"
-              src={asset(booking ? "form" : capture)}
-              alt={
-                booking
-                  ? "Blank Booking Inquiry form on the CHIEF DJ website"
-                  : "CHIEF DJ homepage at a responsive viewport width"
-              }
+          <div className="demo-screen" ref={screen}>
+            <iframe
+              src={crushUrl}
+              title="Explore the Crush Wine Bar website concept"
+              style={scale > 0 ? {
+                width,
+                height: (100 / scale) + "%",
+                transform: "scale(" + scale + ")",
+              } : undefined}
             />
-            {phone && !booking && (
-              <button
-                className="demo-book"
-                aria-label="Preview the CHIEF DJ booking form"
-                onClick={() => {
-                  setManual(true);
-                  setBooking(true);
-                }}
-              >
-                <img src="/brand/crew-chip.svg" alt="" />
-              </button>
-            )}
           </div>
           <div
             className="demo-handle"
             role="slider"
             tabIndex={0}
-            aria-label="Resize the CHIEF DJ website preview"
+            aria-label="Resize the Crush website preview"
             aria-valuemin={min}
             aria-valuemax={max}
             aria-valuenow={width}
@@ -173,17 +130,8 @@ function BrowserDemo() {
           <button aria-pressed={width === max} onClick={() => resize(max)}>
             Desktop
           </button>
-          <button aria-pressed={phone && !booking} onClick={() => resize(min)}>
+          <button aria-pressed={phone} onClick={() => resize(min)}>
             Phone
-          </button>
-          <button
-            aria-pressed={booking}
-            onClick={() => {
-              resize(min);
-              setBooking(true);
-            }}
-          >
-            Booking
           </button>
         </div>
       </figcaption>
