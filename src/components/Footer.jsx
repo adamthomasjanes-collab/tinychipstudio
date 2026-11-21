@@ -17,7 +17,7 @@ export default function Footer() {
   const all = found.length === total;
 
   return (
-    <footer className="site-footer on-dark">
+    <footer id="footer" className="site-footer on-dark">
       <div className="footer-cta">
         <p className="section-tag">STILL SCROLLING?</p>
         <a className="footer-big-link" href="#contact">

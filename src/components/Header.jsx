@@ -11,19 +11,20 @@ const links = [
   { href: '#process', label: 'PROCESS' },
   { href: '#faq', label: 'FAQ' },
 ];
-// Which nav item each top-level section lights up. Before & after is part of
-// Work, and what's at stake closes out Process; the hero and the problem
-// light nothing.
-const NAV_FOR = {
-  clients: 'clients',
-  work: 'clients',
-  about: 'about',
-  services: 'services',
-  'website-options': 'website-options',
-  process: 'process',
-  stakes: 'process',
-  faq: 'faq',
-  contact: 'contact',
+// Chapters own the main navigation; the location label names the section in view.
+const locations = {
+  top: ['Overview', 'top'],
+  problem: ['The problem', 'top'],
+  clients: ['Client work', 'clients'],
+  work: ['Before & after', 'clients'],
+  about: ['About', 'about'],
+  services: ['Services', 'services'],
+  'website-options': ['Pricing', 'website-options'],
+  process: ['Process', 'process'],
+  stakes: ['What’s at stake', 'process'],
+  faq: ['FAQ', 'faq'],
+  contact: ['Contact', 'contact'],
+  footer: ['Footer', null],
 };
 const PANELS = ['scorecard', 'book-call'];
 
@@ -31,23 +32,24 @@ const PANELS = ['scorecard', 'book-call'];
  * Sticky header. Gains a shadow once the page moves, and a thin lime line
  * along its bottom edge fills as you read down the page. The nav item for the
  * section you're reading stays lit: a section takes over once its top passes a
- * reading line a third of the way down the screen, and the page's last section
+ * reading line below the sticky header, and the page's last section
  * wins at the very bottom. While a nav click is scrolling the page, the clicked
  * item stays lit instead of flickering through every section on the way.
  */
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [activeId, setActiveId] = useState(null);
+  const [sectionId, setSectionId] = useState('top');
+  const [locationLabel, activeId] = locations[sectionId];
   const ref = useRef(null);
   const lock = useRef(null);
   const close = (event) => {
     setOpen(false);
     const id = event?.currentTarget?.getAttribute('href')?.slice(1);
     const target = id && document.getElementById(id);
-    if (id && NAV_FOR[id]) {
+    if (id && locations[id]) {
       // Held until the scroll comes to rest (scrollend, or a quiet 200ms), 3s at most.
-      lock.current = { id: NAV_FOR[id], until: performance.now() + 3000, last: performance.now() };
-      setActiveId(NAV_FOR[id]);
+      lock.current = { until: performance.now() + 3000 };
+      setSectionId(id);
     }
     if (target) requestAnimationFrame(() => {
       target.setAttribute('tabindex', '-1');
@@ -85,6 +87,7 @@ export default function Header() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return undefined;
+    const sections = Array.from(document.querySelectorAll('main > section[id], #footer'));
     let raf = 0;
     const update = () => {
       raf = 0;
@@ -92,24 +95,20 @@ export default function Header() {
       el.classList.toggle('is-scrolled', window.scrollY > 8);
       el.style.setProperty('--read', max > 0 ? Math.min(1, window.scrollY / max).toFixed(4) : '0');
       const headerBottom = el.getBoundingClientRect().height;
-      const line = headerBottom + Math.min(window.innerHeight * 0.33, 280);
-      let current = null;
-      document.querySelectorAll('main > section[id]').forEach((section) => {
-        if (section.getBoundingClientRect().top <= line) current = section.id;
-      });
-      if (max > 0 && window.scrollY >= max - 2) {
-        const last = [...document.querySelectorAll('main > section[id]')].pop();
-        if (last) current = last.id;
+      const line = headerBottom + Math.min(window.innerHeight * 0.18, 144);
+      let current = 'top';
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top > line) break;
+        if (locations[section.id]) current = section.id;
       }
-      const next = NAV_FOR[current] ?? null;
+      if (max > 0 && window.scrollY >= max - 2) current = 'footer';
       const held = lock.current;
       if (held && performance.now() < held.until) {
         // Keep the clicked item lit while the page scrolls to it.
-        held.last = performance.now();
         return;
       }
       lock.current = null;
-      setActiveId(next);
+      setSectionId(current);
 
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
@@ -160,9 +159,12 @@ export default function Header() {
 
   return (
     <header className="header" ref={ref}>
-      <a className="brand" href="#top" onClick={close} aria-label="Tiny Chip Studio, back to top">
+      <div className="nav-identity">
+      <a aria-current={activeId === 'top' ? 'location' : undefined} className="brand" href="#top" onClick={close} aria-label="Tiny Chip Studio, back to top">
         <Logo />
       </a>
+      <span className="nav-location"><span className="visually-hidden">Current section: </span>{locationLabel}</span>
+      </div>
 
       <button
         type="button"
@@ -179,7 +181,7 @@ export default function Header() {
         {links.map((l) => {
           const isActive = activeId === l.href.slice(1);
           return (
-            <a key={l.href} href={l.href} className={isActive ? 'is-active' : ''} aria-current={isActive ? 'true' : undefined} onClick={close}>
+            <a key={l.href} href={l.href} className={isActive ? 'is-active' : ''} aria-current={isActive ? 'location' : undefined} onClick={close}>
               <span className="nav-label">{l.label}</span>
             </a>
           );
@@ -187,7 +189,7 @@ export default function Header() {
         <a className="nav-phone" href={`tel:${PHONE_TEL}`} data-track="header-call">
           {PHONE_DISPLAY}
         </a>
-        <a className="nav-contact" aria-current={activeId === 'contact' ? 'true' : undefined} href="#contact" onClick={close} data-track="header-start">
+        <a className="nav-contact" aria-current={activeId === 'contact' ? 'location' : undefined} href="#contact" onClick={close} data-track="header-start">
           LET’S TALK <span aria-hidden="true">↗</span>
         </a>
       </nav>

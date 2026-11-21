@@ -260,7 +260,7 @@ export default function Contact() {
           {tidy(
             "A new website, ongoing care or better follow-through? Tell us what would help your business. We’ll reply by email with a clear next step.",
           )}{" "}
-          <a href="#work">Explore our work →</a>
+          <a href="#clients">Explore our client work →</a>
         </p>
       </div>
 
