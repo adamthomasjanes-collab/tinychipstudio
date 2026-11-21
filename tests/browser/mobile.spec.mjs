@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { offers, heroTeaser, heroDisclosure, total, growthTotal, growthAvailability } from '../../src/offers.js';
+import { offers, total, growthTotal, growthAvailability } from '../../src/offers.js';
 import { studioRoutes, ready, settle, noOverflow, observeErrors, imageChecks, readability } from './helpers.mjs';
 
 test('@mobile navigation, anchors, dismissal and resized landscape',async({page},info)=>{
@@ -28,7 +28,7 @@ test('@mobile navigation, anchors, dismissal and resized landscape',async({page}
 test('@mobile all offers, inquiry qualification, validation, draft, error, fallback and success',async({page})=>{
   await page.addInitScript(()=>{window.qaEvents=[];window.gtag=(...args)=>window.qaEvents.push(args);});
   const errors=observeErrors(page);await page.goto('/');await ready(page);
-  await expect(page.locator('.hero-offer')).toHaveText(heroTeaser+heroDisclosure);
+  await expect(page.locator('#key-title')).toContainText('choose you.');
   await expect(page.locator('[data-offer=website-care]')).toContainText('$2,364');expect(total).toBe(2364);expect(growthTotal).toBe(3564);
   await expect(page.locator('[data-offer=website-growth] .option-readiness')).toHaveText('SET UP AROUND YOUR BUSINESS' + growthAvailability);
   for(const detail of await page.locator('.option-inclusions').all()) {await detail.locator('summary').click();await expect(detail).toHaveAttribute('open','');await detail.locator('summary').click();}
@@ -61,7 +61,7 @@ test('@mobile all offers, inquiry qualification, validation, draft, error, fallb
 
 test('@mobile comparisons, modal focus, scorecard and FAQ',async({page})=>{
   const errors=observeErrors(page);await page.goto('/');await ready(page);
-  const slider=page.locator('.hero .ba-range');await slider.focus();await page.keyboard.press('Home');await page.keyboard.press('ArrowRight');await expect(slider).toHaveValue('1');await expect(slider).toHaveAttribute('aria-valuetext','1% old site, 99% redesign');
+  const slider=page.locator('#work .ba-range');await slider.focus();await page.keyboard.press('Home');await page.keyboard.press('ArrowRight');await expect(slider).toHaveValue('1');await expect(slider).toHaveAttribute('aria-valuetext','1% old site, 99% redesign');
   if(await page.evaluate(()=>navigator.maxTouchPoints>0))await slider.tap();else await slider.click();
   await expect(slider).not.toHaveValue('1');
   const tabs=page.locator('[role=tab]');

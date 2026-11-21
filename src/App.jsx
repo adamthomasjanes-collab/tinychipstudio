@@ -82,11 +82,8 @@ export default function App() {
         <Header />
         <main id="main">
           <Hero />
-          {/* StoryBrand order: the visitor's problem, then the guide (proof and
-              who does the work), the offer, the plan, and what's at stake. The
-              header nav follows this same order. */}
-          <Problem />
           <Clients onOpen={openCase} />
+          <Problem />
           <Work onOpen={openCase} />
           <AboutSection />
           <Services />

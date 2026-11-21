@@ -106,7 +106,7 @@ test('@mobile @social short landing, shared anchor, refresh and Back', async ({ 
   await expect(heading).toBeInViewport();
   // Keep the reading scale usable when a visitor enlarges the default font.
   await page.addStyleTag({content: 'html {font-size: 125%}'});
-  await expect(page.locator('.hero-sub')).toHaveCSS('font-size', '20px');
+  await expect(page.locator('.key-deck')).toHaveCSS('font-size', '20px');
   await noOverflow(page);
   expect(errors).toEqual([]);
 });
@@ -120,8 +120,8 @@ test.describe('Instagram phone typography', () => {
     await ready(page);
     for (const width of [320, 360, 375, 390, 393, 412, 430]) {
       await page.setViewportSize({width, height: 700});
-      await expect(page.locator('.hero-sub')).toHaveCSS('font-size', '14px');
-      await expect(page.locator('h1')).toHaveCSS('font-size', '32px');
+      await expect(page.locator('.key-deck')).toHaveCSS('font-size', '14px');
+      await expect(page.locator('#key-title')).toBeVisible();
       await expect(page.locator('.ba-tab strong').first()).toHaveCSS('font-size', '16px');
       await page.locator('.ba-picker').evaluate(e => e.scrollIntoView({block:'center'}));
       await expect(page.locator('.guide')).toBeVisible();
@@ -131,7 +131,7 @@ test.describe('Instagram phone typography', () => {
       await enlargeLabels(page, 1);
     }
     await page.addStyleTag({content: 'html {font-size: 125%}'});
-    await expect(page.locator('.hero-sub')).toHaveCSS('font-size', '17.5px');
+    await expect(page.locator('.key-deck')).toHaveCSS('font-size', '17.5px');
     await page.locator('.ba-tab').last().tap();
     await expect(page.locator('.ba-tab').last()).toHaveAttribute('aria-selected', 'true');
   });
@@ -143,8 +143,8 @@ test('@mobile @social vertical scroll preserves the comparison and horizontal dr
   await page.goto('/');
   await ready(page);
   const session = await page.context().newCDPSession(page);
-  for (const selector of ['.hero .ba-range', '#work .ba-range']) {
-    const slider = page.locator(selector);
+  {
+    const slider = page.locator('#work .ba-range');
     const swipe = async (dx, dy) => {
       await slider.evaluate(e => e.scrollIntoView({block: 'center', behavior: 'instant'}));
       await settle(page);

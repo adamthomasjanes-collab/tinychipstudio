@@ -1,0 +1,134 @@
+.key-track {
+  background: #101513;
+  --travel: 65svh;
+  color: #f4f1e8;
+}
+.key-stage {
+  position: sticky;
+  top: var(--header-height, 76px);
+  min-height: calc(100svh - var(--header-height, 76px));
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 3vw;
+  align-items: center;
+  padding: 4vh 4.8vw;
+  background:
+    radial-gradient(ellipse at 76% 53%, #283323, transparent 60%), #101513;
+}
+.key-kicker,
+.key-shot figcaption {
+  font:
+    600 0.77rem/1.5 Space,
+    sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.key-kicker {
+  color: #c3cdba;
+}
+.key-copy h1 {
+  margin: 1.3rem 0;
+  font:
+    700 clamp(4.3rem, 7.7vw, 8rem)/0.91 Barlow,
+    Impact,
+    sans-serif;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: #f4f1e8;
+}
+.key-copy h1 em {
+  color: #c7ff58;
+  font-style: normal;
+}
+.key-deck {
+  max-width: 35ch;
+  margin: 0 0 1.65rem;
+  font:
+    400 clamp(1rem, 1.55vw, 1.35rem)/1.48 Inter,
+    sans-serif;
+  color: #dedfd4;
+}
+.key-copy .hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+.key-work {
+  color: #f4f1e8;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  font-weight: 600;
+}
+.key-shot {
+  margin: 0;
+  min-width: 0;
+}
+.key-film {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: #202721 url("/assets/under-key/frames.webp") var(--key-x, 0%)
+    var(--key-y, 0%) / 600% 600% no-repeat;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.key-chip {
+  position: absolute;
+  left: 50%;
+  top: 77%;
+  width: 12%;
+  height: auto;
+  transform: translate(-50%, calc(-24% - var(--chip-show, 0) * 24%));
+  opacity: var(--chip-show, 0);
+  image-rendering: pixelated;
+}
+.key-shot figcaption {
+  margin-top: 0.7rem;
+  color: #c1c8b6;
+}
+@media (max-width: 800px) {
+  .key-stage {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: clamp(1rem, 4vh, 2.75rem);
+    padding: 2rem 6vw;
+  }
+  .key-copy h1 {
+    font-size: clamp(3rem, 12vw, 6rem);
+    margin: 0.8rem 0;
+  }
+  .key-deck {
+    margin-bottom: 1rem;
+  }
+  .key-shot {
+    width: min(100%, 580px);
+    justify-self: center;
+  }
+  .key-track {
+    --travel: 48svh;
+  }
+}
+@media (max-height: 580px), (prefers-reduced-motion: reduce) {
+  .key-track {
+    --travel: 0px;
+  }
+  .key-stage {
+    position: relative;
+    top: 0;
+  }
+  .key-film {
+    background-position: 100% 100%;
+  }
+  .key-chip {
+    opacity: 1;
+  }
+  .key-shot figcaption {
+    display: none;
+  }
+}
+
+.key-track::after {
+  content: "";
+  display: block;
+  height: var(--travel);
+}
