@@ -1,10 +1,109 @@
-// Selected work. Mirrors src/data/portfolio.ts on adamthomasjanes.com (same order, same
-// statuses, same decisions). kind: live | historical | concept | approved.
+// Selected work. kind: live | historical | concept | approved.
 // Statuses are deliberately exact: never promote a concept to client work.
+
+import { additionalConcepts } from './portfolio-concepts.js';
 
 const A = '/assets/work/';
 
 export const projects = [
+  ...additionalConcepts,
+  {
+    id: 'chief-dj',
+    kind: 'live',
+    number: '10',
+    name: 'Chief DJ',
+    sector: 'Entertainment & events',
+    type: 'LIVE WEBSITE',
+    status: 'Live client website',
+    headline: 'Find the next show. Book Chief for your own.',
+    summary: 'Steve plays bars, parties and events around Port Clinton and Put-in-Bay. His website gives regulars a calendar of appearances and gives event hosts a direct way to ask about a date.',
+    contribution: 'Tiny Chip Studio designed and built the website, paired Steve’s performance photos with his event listings, and connected booking inquiries to his inbox.',
+    image: A + 'chief-dj-live.webp',
+    srcSet: `${A}chief-dj-live-768.webp 768w, ${A}chief-dj-live.webp 1280w`,
+    imageSize: [1280, 720],
+    alt: 'Chief DJ’s live homepage with his performance photo, Livin’ N Rockin’ headline and Book Chief link',
+    color: '#e04040',
+    url: 'https://chiefdjrocks.com/',
+    linkLabel: 'OPEN CLIENT WEBSITE',
+    disciplines: ['Website design', 'Event calendar', 'Booking inquiries'],
+    quote: { text: 'He made my site pop with vibrance and attention to detail in telling my story! Definitely use Tiny Chip Studio for any web design you are looking to bring to life!', by: 'Steve, Chief DJ · Google review' },
+    note: 'The site is live on Steve’s own domain.',
+    gallery: [],
+    decisions: [
+      {
+        label: 'Events',
+        question: 'Where can I hear Chief play next?',
+        title: 'Put the date and venue together.',
+        explanation: 'A fan checking plans on a phone needs to see when and where to go.',
+        implementation: 'The event listings pair each date with the venue, town and type of show.',
+      },
+      {
+        label: 'Booking',
+        question: 'Can Chief play my event?',
+        title: 'Give event hosts a direct line to Steve.',
+        explanation: 'A host can share the date and event details while they are looking at the site.',
+        implementation: 'Book Chief opens the inquiry form. Each submission goes to Steve by email.',
+      },
+    ],
+  },
+  {
+    id: 'three-legged-dog',
+    kind: 'concept',
+    number: '09',
+    name: 'Three Legged Dog',
+    sector: 'Games bar & nightlife',
+    type: 'INDEPENDENT CONCEPT',
+    status: 'Redesign concept · Not commissioned',
+    headline: 'A night out, with something extra to play.',
+    summary:
+      'A games-bar concept for Port Clinton, with clear routes into drinks, games and visit planning. It also introduces Island Hop, an original browser pinball game.',
+    contribution:
+      'Website concept design and frontend development, plus Island Hop: a playable browser pinball game with four playfield regions, pause and fullscreen controls, score cards and local high scores.',
+    image: A + 'ba/three-legged-dog-after.png',
+    srcSet: `${A}ba/three-legged-dog-after-768.webp 768w, ${A}ba/three-legged-dog-after.webp 1280w, ${A}ba/three-legged-dog-after.png 1920w`,
+    imageSize: [1920, 1080],
+    alt: 'Three Legged Dog redesign with "Same old night? Not tonight." over a busy games bar and clear actions to plan a night or explore the games',
+    color: '#e9c782',
+    url: 'https://adamthomasjanes.com/threeleggeddog/',
+    linkLabel: 'EXPLORE THE LIVE CONCEPT',
+    disciplines: ['Venue storytelling', 'Navigation', 'Website development', 'Browser game development'],
+    note: 'Independent website concept, not commissioned or adopted by Three Legged Dog. Island Hop was built independently and is available for other venues. No booking, traffic or revenue results are claimed.',
+    gallery: [
+      { src: A + 'ba/three-legged-dog-before.png', srcSet: `${A}ba/three-legged-dog-before-768.webp 768w, ${A}ba/three-legged-dog-before.webp 1280w, ${A}ba/three-legged-dog-before.png 1920w`, size: [1920, 1080], alt: 'Three Legged Dog\'s previous landing page with its logo, venue description, address, hours and directions on a teal background', caption: 'Before · the original landing page, captured October 2026' },
+    ],
+    decisions: [
+      {
+        label: 'Atmosphere',
+        question: 'Why spend the evening here?',
+        title: 'Show the kind of night on offer.',
+        explanation: 'The opening pairs a lively room with a direct invitation to break the usual routine.',
+        implementation: '"Same old night? Not tonight." leads the page alongside a venue photograph.',
+      },
+      {
+        label: 'Choice',
+        question: 'What can we do when we get there?',
+        title: 'Give each reason to visit a clear route.',
+        explanation: 'Guests can explore games, drinks and the Pinball Perch without reading the whole site — and find Island Hop ready to play.',
+        implementation: 'Named navigation and an Explore the Games action make those options easy to find, with Island Hop available to play in the concept.',
+      },
+      {
+        label: 'Island Hop',
+        question: 'What is Island Hop and can we get it for our venue?',
+        title: 'Give the concept something people can play.',
+        explanation: 'Island Hop is an original browser pinball game with four playfield regions. Built independently for this concept, it is also available for other establishments.',
+        implementation: 'Play in the browser, with pause, fullscreen and local high scores. Ask about licensing or adapting a game for your venue.',
+        link: { label: 'PLAY ISLAND HOP', url: 'https://adamthomasjanes.com/threeleggeddog/arcade/' },
+        inquiry: 'Island Hop pinball for my venue',
+      },
+      {
+        label: 'Planning',
+        question: 'How do we turn that into a plan?',
+        title: 'Keep the practical next step close.',
+        explanation: 'Atmosphere gets people interested. Visit details help them decide to go.',
+        implementation: 'Plan Your Night sits beside the opening message, with directions and a prompt to call for today\'s hours in the header.',
+      },
+    ],
+  },
   {
     id: 'joshua-janes',
     kind: 'concept',
@@ -117,10 +216,10 @@ export const projects = [
     url: 'https://amsmysticaltreasuresllc.com/',
     linkLabel: 'VIEW LIVE WEBSITE',
     disciplines: ['Digital art direction', 'Brand storytelling', 'Website development'],
-    quote: { text: 'This is absolutely stunning! I love the detail and vibe, it’s perfect!!', by: 'Ann, AM’s Mystical Treasures' },
+    quote: { text: 'The web page he did up for my shop was beyond my expectations, he truly went above and beyond to make it a dream! He made everything a very smooth and easy process.', by: 'Ann, AM’s Mystical Treasures · Google review' },
     note: 'Live-site status is documented in the project’s launch record. Product availability and transactions belong to Palmstreet; this website is not an inventory or checkout system.',
     gallery: [
-      { src: A + 'ams-gallery.webp', size: [1280, 720], alt: 'Earlier AM’s Mystical Treasures gallery view with product storytelling and shopping direction', caption: 'Website development view · gallery and business storytelling' },
+      { src: A + 'ams-hero.webp', size: [1280, 720], alt: 'AM’s Mystical Treasures collector’s gallery with clear product storytelling and a Palmstreet shopping link', caption: 'Live website · gallery and business storytelling' },
     ],
     decisions: [
       {
@@ -204,19 +303,19 @@ export const projects = [
     status: 'Independent concept',
     headline: 'A historic destination, made easier to discover and explore.',
     summary:
-      'A custom WordPress website concept connects the Mill’s history, dining spaces, menus and private events with practical visit planning.',
+      'A custom website concept connects the Mill’s history, dining spaces, menus and private events with practical visit planning.',
     contribution:
-      'Custom WordPress concept development, responsive experience design, destination storytelling, menu organization and visit-planning interactions. Built as an independent demonstration—not a commissioned Pioneer Mill website.',
+      'Custom prototype development, responsive experience design, destination storytelling, menu organization and visit-planning interactions. Built as an independent demonstration—not a commissioned Pioneer Mill website.',
     image: A + 'pioneer-hero.webp',
     imageSize: [1280, 720],
     alt: 'Pioneer Mill destination-dining website concept',
     color: '#bcd2ef',
-    url: 'https://pioneermill.adamthomasjanes.com/',
-    linkLabel: 'EXPLORE WORDPRESS DEMO',
-    disciplines: ['Custom WordPress', 'Destination storytelling', 'Responsive interfaces'],
-    note: 'Independent custom WordPress concept hosted on the founder’s portfolio subdomain, not commissioned or adopted by Pioneer Mill. Reservation availability, event inquiries and email signup in the concept are demonstrations—not real restaurant submissions. Some concept imagery is illustrative/AI-generated and labeled within the demo. No traffic, booking or revenue results are claimed.',
+    url: 'https://adamthomasjanes.com/concept/prototype/',
+    linkLabel: 'EXPLORE THE DESIGN CONCEPT',
+    disciplines: ['Custom development', 'Destination storytelling', 'Responsive interfaces'],
+    note: 'Independent website prototype, not commissioned or adopted by Pioneer Mill. Reservation availability, event inquiries and email signup in the concept are demonstrations—not real restaurant submissions. Some concept imagery is illustrative/AI-generated. No traffic, booking or revenue results are claimed.',
     gallery: [
-      { src: A + 'pioneer-full.webp', size: [1920, 1080], alt: 'Full Pioneer Mill website concept connecting the history, dining, menu, gatherings and visit information', caption: 'Custom WordPress concept · history, dining, menu, events and visit planning' },
+      { src: A + 'pioneer-full.webp', size: [1920, 1080], alt: 'Full Pioneer Mill website concept connecting the history, dining, menu, gatherings and visit information', caption: 'Custom website concept · history, dining, menu, events and visit planning' },
     ],
     decisions: [
       {
@@ -224,7 +323,7 @@ export const projects = [
         question: 'Why would I come here?',
         title: 'Lead with the character of the destination.',
         explanation: 'The concept gives the place and its history a visible role rather than opening with an undifferentiated list of information.',
-        implementation: 'The custom WordPress concept opens with the mill’s sense of place, then uses separate history and dining sections to give that story practical context.',
+        implementation: 'The custom website concept opens with the mill’s sense of place, then uses separate history and dining sections to give that story practical context.',
       },
       {
         label: 'Choice',
@@ -351,7 +450,7 @@ export const projects = [
     image: A + 'camp-perry-hero.webp',
     imageSize: [1280, 720],
     alt: 'Camp Perry Lodging and Conference Center website preview',
-    color: '#c9b8ef',
+    color: '#b9d3c4',
     url: 'https://cplcc.com/',
     linkLabel: 'VIEW CURRENT VENUE WEBSITE',
     disciplines: ['Information architecture', 'WordPress', 'Communication systems'],

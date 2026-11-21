@@ -3,21 +3,24 @@
 // is our redesign. Statuses stay exact: a concept is never presented as a client
 // project, and no traffic, booking or revenue result is claimed for any of them.
 
+import { additionalComparisons } from './portfolio-concepts.js';
+
 const B = '/assets/work/ba/';
 
-export const transformations = [
+const comparisons = [
+  ...additionalComparisons,
   {
     id: 'pioneer-mill',
     project: 'pioneer-mill',
     name: 'Pioneer Mill',
-    place: 'Tiffin,\u00a0Ohio',
+    place: 'Tiffin, Ohio',
     sector: 'Destination dining',
     status: 'Redesign concept · not commissioned',
     kind: 'concept',
-    before: { src: B + 'pioneer-before', alt: 'Pioneer Mill’s current homepage: the restaurant name over a dining-room photo, a row of links, and a large photo of a steak under “View Our New Menu”', note: 'Their current site, captured October 2026' },
-    after: { src: B + 'pioneer-after', alt: 'Our Pioneer Mill redesign: “Gather at the Mill” over guests at a table, with Reserve a table and Full menu buttons and a visit-planning bar', note: 'Our custom WordPress concept' },
-    url: 'https://pioneermill.adamthomasjanes.com/',
-    linkLabel: 'EXPLORE THE LIVE CONCEPT',
+    before: { src: B + 'pioneer-before', alt: 'Pioneer Mill’s homepage captured in October 2026: the restaurant name over a dining-room photo, a row of links, and a large photo of a steak under “View Our New Menu”', note: 'Original site, captured October 2026' },
+    after: { src: B + 'pioneer-after', alt: 'Our Pioneer Mill redesign: “Gather at the Mill” over guests at a table, with Reserve a table and Full menu buttons and a visit-planning bar', note: 'Our custom website concept' },
+    url: 'https://adamthomasjanes.com/concept/prototype/',
+    linkLabel: 'EXPLORE THE DESIGN CONCEPT',
     headline: 'Sell the evening, not the entrée.',
     inTheWay: [
       'The first thing you see is one plate of food. Nothing says why a 200-year-old mill is worth the drive.',
@@ -34,7 +37,7 @@ export const transformations = [
     id: 'crush',
     project: 'crush',
     name: 'Crush Wine Bar',
-    place: 'Sandusky,\u00a0Ohio',
+    place: 'Sandusky, Ohio',
     sector: 'Wine bar & restaurant',
     status: 'Design sold & approved · build pending',
     kind: 'approved',
@@ -50,7 +53,7 @@ export const transformations = [
     ],
     moves: [
       { did: 'Led with the reasons people actually come: date night, dinner with friends, one more glass.', why: 'People pick a wine bar for the evening they’re planning.' },
-      { did: 'Kept the phone, the full menu and Reserve a table in the header on every page.', why: 'Those are the three things a guest needs at 6 p.m.' },
+      { did: 'Kept the phone, the full menu and Reserve a table in the header on every page.', why: 'Those are the three things a guest needs at 6 p.m.' },
       { did: 'Designed a staff dashboard for posting menus, events and notices.', why: 'A restaurant site is only useful if the team can keep it current.' },
     ],
   },
@@ -58,7 +61,7 @@ export const transformations = [
     id: 'aquablast',
     project: 'aquablast',
     name: 'AquaBlast',
-    place: 'Marblehead,\u00a0Ohio',
+    place: 'Marblehead, Ohio',
     sector: 'Exterior cleaning',
     status: 'Redesign concept · not commissioned',
     kind: 'concept',
@@ -82,7 +85,7 @@ export const transformations = [
     id: 'debacco',
     project: 'debacco-mancinetti',
     name: 'DeBacco | Mancinetti',
-    place: 'Port Clinton,\u00a0Ohio',
+    place: 'Port Clinton, Ohio',
     sector: 'Criminal defense',
     status: 'Redesign concept · not commissioned',
     kind: 'concept',
@@ -126,7 +129,40 @@ export const transformations = [
       { did: 'Kept named sections and a project carousel next to the playful part.', why: 'Exploring is fun. Getting lost isn’t.' },
     ],
   },
+  {
+    id: 'three-legged-dog',
+    project: 'three-legged-dog',
+    name: 'Three Legged Dog',
+    place: 'Port Clinton, Ohio',
+    sector: 'Games bar & nightlife',
+    status: 'Redesign concept · not commissioned',
+    kind: 'concept',
+    before: { src: B + 'three-legged-dog-before', alt: 'Three Legged Dog’s prior landing page: its dog logo, address, venue description, hours and a Get directions button on a teal background', note: 'Their site, captured October 2026' },
+    after: { src: B + 'three-legged-dog-after', alt: 'Our Three Legged Dog redesign: “Same old night? Not tonight.” over a crowded games-bar photo, with Plan Your Night and Explore the Games actions', note: 'Our interactive concept' },
+    url: 'https://adamthomasjanes.com/threeleggeddog/',
+    linkLabel: 'EXPLORE THE LIVE CONCEPT',
+    game: {
+      name: 'Island Hop',
+      url: 'https://adamthomasjanes.com/threeleggeddog/arcade/',
+      description: 'An original browser pinball game, available for other venues too.',
+    },
+    headline: 'A night out, with something extra to play.',
+    inTheWay: [
+      'The original page covered the basics — address, hours and directions — but gave people no reason to choose this place for the night.',
+      'Games, drinks and the Pinball Perch were named, not turned into paths someone could follow.',
+      'The basic landing page did not give people an interactive way to explore the games-bar idea.',
+    ],
+    moves: [
+      { did: 'Opened with “Same old night? Not tonight.” and a real-feeling view of a busy room.', why: 'The decision is about the kind of night people want, not a list of amenities.' },
+      { did: 'Included Island Hop, an original browser pinball game, within the concept.', why: 'Visitors can try the game while exploring the work. It is also available for other venues.' },
+      { did: 'Built distinct routes for drinks, games, the Pinball Perch and a visit plan.', why: 'Different reasons to visit deserve clear entrances, not one catch-all page.' },
+    ],
+  },
 ];
 
+// Discovery order is separate from the deliberately chosen Pioneer Mill hero.
+const comparisonOrder = ['three-legged-dog', 'pioneer-mill', 'experience-the-peninsula', 'cutters', 'crush', 'aquablast', 'debacco', 'joshua'];
+export const transformations = comparisonOrder.map((id) => comparisons.find((project) => project.id === id));
+
 /** The work we were hired for. These open the full case-study sheet. */
-export const clientWork = ['jt-auto', 'ams-mystical-treasures', 'camp-perry'];
+export const clientWork = ['jt-auto', 'chief-dj', 'ams-mystical-treasures', 'camp-perry'];

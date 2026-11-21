@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import { BOOK_URL, REGION, SCORECARD_URL, STARTING_PRICE } from '../site';
-import { transformations } from '../transformations';
-import BeforeAfter from '../fx/BeforeAfter';
-import { tidy } from '../lib/typography';
-import CircuitField from '../fx/CircuitField';
+import React, { useEffect, useRef } from "react";
+import { heroTeaser, heroDisclosure, primaryCta, own } from "../offers";
+import { startInquiry } from "../lib/inquiry";
+
+import { transformations } from "../transformations";
+import BeforeAfter from "../fx/BeforeAfter";
+import { tidy } from "../lib/typography";
+import CircuitField from "../fx/CircuitField";
 
 /**
  * The "system notice" sticker sits on top of the header's bottom edge, like
@@ -18,13 +20,18 @@ function useNoticePeel(ref) {
     const update = () => {
       raf = 0;
       const p = Math.min(1, Math.max(0, window.scrollY / 160));
-      el.style.setProperty('--peel', p.toFixed(3));
-      el.classList.toggle('is-gone', p >= 1);
+      el.style.setProperty("--peel", p.toFixed(3));
+      el.classList.toggle("is-gone", p >= 1);
     };
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
     update();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
   }, [ref]);
 }
 
@@ -32,7 +39,8 @@ export default function Hero() {
   const frameRef = useRef(null);
   const noticeRef = useRef(null);
   useNoticePeel(noticeRef);
-  const t = transformations[0];
+  // The hero is a deliberate feature, independent of the comparison tab order.
+  const t = transformations.find((project) => project.id === "pioneer-mill");
 
   return (
     <div className="hero-stage">
@@ -50,47 +58,73 @@ export default function Hero() {
         <CircuitField chipRef={frameRef} />
 
         <div className="hero-copy">
-          <p className="hero-kicker">
-            WEB DESIGN FOR {REGION.toUpperCase()} BUSINESSES <span>/ AND WHEREVER YOU ARE</span>
-          </p>
+          <p className="hero-kicker">WEBSITE DESIGN & BUSINESS GROWTH</p>
           <h1>
-            MAKE IT EASIER FOR CUSTOMERS{' '}
+            YOUR BUSINESS IS GREAT.{" "}
             <span className="hero-line-three">
-              TO CHOOSE YOU<span className="period">.</span>
+              YOUR WEBSITE SHOULD PROVE IT<span className="period">.</span>
             </span>
           </h1>
           <p className="hero-sub">
             {tidy(
-              'You do good work. Your website should make that obvious in five seconds. We plan, design and build sites that say what you do plainly, earn trust fast, and make calling you the easy next step.',
+              "Distinctive websites that help people understand your business and get in touch. We handle the care and reporting, and set up inquiry and follow-up tools around your business with Growth.",
             )}
           </p>
+          <p className="hero-offer">
+            <strong>{heroTeaser}</strong>
+            <span>{heroDisclosure}</span>
+          </p>
           <div className="hero-actions">
-            <a className="button button-lime" href="#contact" data-track="start">
-              START A PROJECT <span aria-hidden="true">↗</span>
+            <a
+              className="button button-lime"
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                startInquiry({ need: "Not sure yet", source: "hero" });
+              }}
+            >
+              {primaryCta} <span aria-hidden="true">↗</span>
             </a>
-            <a className="button button-ghost" href={BOOK_URL} data-track="book-call-hero">
-              BOOK A 15-MIN CALL <span aria-hidden="true">☎</span>
+            <a className="text-link" href="#services">
+              SEE WHAT’S INCLUDED <span aria-hidden="true">↓</span>
             </a>
           </div>
           <ul className="hero-facts" aria-label="At a glance">
-            <li>
-              Websites from <strong>{STARTING_PRICE}</strong>
-            </li>
-            <li>Fixed quote before work starts</li>
-            <li>Based in Tiffin,&nbsp;Ohio</li>
+            <li>Based in Tiffin, Ohio · working with businesses anywhere</li>
           </ul>
-          <a className="text-link hero-score" href={SCORECARD_URL} data-track="scorecard">
-            NOT READY? SCORE YOUR WEBSITE FREE, 2 MIN <span aria-hidden="true">↗</span>
+          <a className="text-link hero-score" href="#website-options">
+            PREFER TO BUY ONCE? BUILD &amp; OWN {own.price.toUpperCase()} ↗
           </a>
         </div>
 
         <div className="hero-ba" ref={frameRef}>
-          <BeforeAfter before={t.before} after={t.after} label={`${t.name}, ${t.place}`} url="pioneermilloftiffin.com" eager start={58} sizes="(max-width: 900px) 100vw, 52vw" />
+          <BeforeAfter
+            before={t.before}
+            after={t.after}
+            label={`${t.name}, ${t.place}`}
+            url="Pioneer Mill · design concept"
+            eager
+            start={58}
+            sizes="(max-width: 900px) 100vw, 52vw"
+          />
           <p className="hero-ba-cap">
             <strong>
               {t.name}, {t.place}.
-            </strong>{' '}
-            {tidy('Their site today vs. our redesign concept.')} <a href="#work">SEE ALL FIVE →</a>
+            </strong>{" "}
+            {tidy(
+              "October 2026 screenshots: original site vs. our redesign concept.",
+            )}{" "}
+            <a
+              className="hero-concept-link"
+              href={t.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track="hero-concept-open"
+            >
+              OPEN PIONEER MILL CONCEPT ↗
+              <span className="visually-hidden"> (opens in a new tab)</span>
+            </a>{" "}
+            <a href="#work">COMPARE MORE WEBSITES ↓</a>
           </p>
         </div>
       </section>

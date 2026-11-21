@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Chip from '../chip/Chip';
 import { answerOptions, evaluateScorecard, planningSteps, questions, scorecardHandoff, scorecardText } from '../scorecard';
 import { sendForm } from '../lib/forms';
-import { trackLead } from '../lib/track';
+import { track, trackLead } from '../lib/track';
 import { tidy } from '../lib/typography';
+import { bookingProps } from '../lib/booking';
 
 const STAGES = [
   { value: 'established', label: "Yes, it’s been live a while" },
@@ -16,10 +17,14 @@ const MOOD = { 2: 'cheer', 1: 'think', 0: 'wow', null: 'think' };
 /**
  * The scorecard, one question at a time. Chip reacts to each answer. Results
  * show straight away, with no email gate. After the results there's an
- * optional "send me this plan" that comes to the studio as a warm lead, with
- * the visitor's own answers attached.
+ * optional, free "send me the first fix" that comes to the studio as a warm
+ * lead, with the visitor's own answers attached. (The full written website
+ * review is a separate, paid service.)
+ *
+ * Each step replaces the buttons that were just pressed, so focus moves to the
+ * new question's heading; otherwise it would fall back to <body>.
  */
-export default function ScorecardPanel({ onBook }) {
+export default function ScorecardPanel() {
   const [stage, setStage] = useState(null);
   const [i, setI] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -27,9 +32,21 @@ export default function ScorecardPanel({ onBook }) {
   const [lead, setLead] = useState({ name: '', email: '', website: '' });
   const [sent, setSent] = useState('idle'); // idle | sending | sent | error
   const [copied, setCopied] = useState(false);
+  const headRef = useRef(null);
+  const moved = useRef(false);
 
   const done = stage === 'planning' || (stage && i >= questions.length);
   const report = useMemo(() => (done ? evaluateScorecard(answers, stage) : null), [done, answers, stage]);
+
+  // After the first step, every change of question (or the results) takes focus.
+  useEffect(() => {
+    if (!moved.current) return;
+    headRef.current?.focus();
+  }, [stage, i, done]);
+  const step = (fn) => {
+    moved.current = true;
+    fn();
+  };
 
   const answer = (q, v) => {
     setAnswers((a) => ({ ...a, [q.id]: v }));
@@ -40,15 +57,12 @@ export default function ScorecardPanel({ onBook }) {
 
   const sendPlan = async (e) => {
     e.preventDefault();
-    if (!/^\S+@\S+\.\S+$/.test(lead.email.trim())) { setSent('error'); return; }
+    if (!/^\S+@\S+\.\S+$/.test(lead.email.trim())) { setSent('invalid'); return; }
     setSent('sending');
-    try {
-      const ok = await sendForm('scorecard-plan', { ...lead, stage, summary: scorecardHandoff(report), full: scorecardText(report, answers) });
-      setSent(ok ? 'sent' : 'error');
-      if (ok) trackLead('scorecard-plan');
-    } catch {
-      setSent('error');
-    }
+    const result = await sendForm('scorecard-plan', { ...lead, stage, summary: scorecardHandoff(report), full: scorecardText(report, answers) });
+    setSent(result === 'sent' ? 'sent' : result === 'timeout' ? 'timeout' : 'error');
+    if (result === 'sent') trackLead('scorecard-plan');
+    else track('form_error', { form: 'scorecard-plan', reason: result });
   };
 
   const copy = async () => {
@@ -67,11 +81,11 @@ export default function ScorecardPanel({ onBook }) {
           <Chip pose="point" className="sc-chip" />
           <div>
             <p className="sc-count">BEFORE WE START</p>
-            <h3>Do you have a website right now?</h3>
+            <h3 tabIndex={-1} ref={headRef}>Do you have a website right now?</h3>
             <p className="sc-help">{tidy("Fifteen quick questions, about two minutes. You’ll see your results right away, no email needed.")}</p>
             <div className="sc-options">
               {STAGES.map((s) => (
-                <button key={s.value} type="button" className="sc-opt" onClick={() => { setStage(s.value); trackLead('scorecard-start'); }}>
+                <button key={s.value} type="button" className="sc-opt" onClick={() => step(() => { setStage(s.value); trackLead('scorecard-start'); })}>
                   {s.label}
                 </button>
               ))}
@@ -95,17 +109,17 @@ export default function ScorecardPanel({ onBook }) {
             <p className="sc-count">
               QUESTION {i + 1} OF {questions.length}
             </p>
-            <h3>{q.question}</h3>
+            <h3 id="sc-question" tabIndex={-1} ref={headRef}>{q.question}</h3>
             <p className="sc-help">{tidy(q.helper)}</p>
             <div className="sc-options">
               {answerOptions.map((o) => (
-                <button key={o.label} type="button" className={`sc-opt ${answers[q.id] === o.value && q.id in answers ? 'is-picked' : ''}`} onClick={() => answer(q, o.value)}>
+                <button key={o.label} type="button" className={`sc-opt ${answers[q.id] === o.value && q.id in answers ? 'is-picked' : ''}`} aria-pressed={q.id in answers && answers[q.id] === o.value} onClick={() => step(() => answer(q, o.value))}>
                   {o.label}
                 </button>
               ))}
             </div>
             {i > 0 && (
-              <button type="button" className="text-link sc-back" onClick={() => setI((n) => n - 1)}>
+              <button type="button" className="text-link sc-back" onClick={() => step(() => setI((n) => n - 1))}>
                 ← BACK
               </button>
             )}
@@ -120,7 +134,7 @@ export default function ScorecardPanel({ onBook }) {
       {stage === 'planning' ? (
         <section className="sc-block">
           <p className="sc-count">YOUR STARTING PLAN</p>
-          <h3>{tidy('No site yet? Good. You get to start in the right order.')}</h3>
+          <h3 tabIndex={-1} ref={headRef}>{tidy('No site yet? Good. You get to start in the right order.')}</h3>
           <ol className="sc-plan">
             {planningSteps.map((s) => (
               <li key={s.title}>
@@ -134,7 +148,7 @@ export default function ScorecardPanel({ onBook }) {
         <>
           <section className="sc-block">
             <p className="sc-count">YOUR RESULTS · BASED ON YOUR ANSWERS, NOT A SCAN</p>
-            <h3>
+            <h3 tabIndex={-1} ref={headRef}>
               {report.strengths.length} strengths. {report.concerns.length} things to look at. {report.unknowns.length} worth checking.
             </h3>
             <ul className="sc-cats">
@@ -181,7 +195,8 @@ export default function ScorecardPanel({ onBook }) {
         ) : (
           <form onSubmit={sendPlan} noValidate>
             <h3>{tidy('Want a second set of eyes on it?')}</h3>
-            <p>{tidy("Send us your results. A real person (Adam) looks at your site and replies with the first fix we’d make. Free, and no sales call unless you ask for one.")}</p>
+            <p>{tidy("Send us your results. A real person (Adam) looks at your site and replies with the one fix we’d make first. That suggestion is free, with no sales call unless you ask for one.")}</p>
+            <p className="sc-note">{tidy('Want the whole picture? A full written website review is a separate, paid service, with scope and fee agreed first.')}</p>
             <div className="sc-fields">
               <label>
                 <span>Name</span>
@@ -189,7 +204,7 @@ export default function ScorecardPanel({ onBook }) {
               </label>
               <label>
                 <span>Email</span>
-                <input name="email" type="email" autoComplete="email" required value={lead.email} aria-invalid={sent === 'error'} onChange={(e) => { setLead({ ...lead, email: e.target.value }); if (sent === 'error') setSent('idle'); }} />
+                <input name="email" type="email" autoComplete="email" required value={lead.email} aria-invalid={sent === 'invalid'} aria-describedby={sent === 'invalid' || sent === 'error' || sent === 'timeout' ? 'sc-lead-error' : undefined} onChange={(e) => { setLead({ ...lead, email: e.target.value }); if (sent === 'invalid') setSent('idle'); }} />
               </label>
               {stage !== 'planning' && (
                 <label>
@@ -198,14 +213,16 @@ export default function ScorecardPanel({ onBook }) {
                 </label>
               )}
             </div>
-            {sent === 'error' && <p className="field-error">{tidy("That didn’t go through. Check the email address, or copy the plan and email it to us.")}</p>}
+            {sent === 'invalid' && <p className="field-error" id="sc-lead-error" role="alert">{tidy('Please add an email address we can reply to.')}</p>}
+            {sent === 'error' && <p className="field-error" id="sc-lead-error" role="alert">{tidy('That didn’t go through, and nothing was sent. Try again, or copy your results and email them to us.')}</p>}
+            {sent === 'timeout' && <p className="field-error" id="sc-lead-error" role="alert">{tidy('We couldn’t confirm it arrived. It may still reach us; sending the same results again won’t email us twice.')}</p>}
             <div className="sc-actions">
               <button type="submit" className="button button-lime" disabled={sent === 'sending'}>
                 {sent === 'sending' ? 'SENDING…' : 'SEND ME THE FIRST FIX'} <span aria-hidden="true">↗</span>
               </button>
-              <button type="button" className="text-link" onClick={onBook}>
-                OR BOOK A 15-MINUTE CALL
-              </button>
+              <a className="text-link" {...bookingProps('scorecard', 'book-call-scorecard')}>
+                OR BOOK A 15-MINUTE CALL ↗<span className="visually-hidden"> (opens the calendar in a new tab)</span>
+              </a>
               {stage !== 'planning' && (
                 <button type="button" className="text-link" onClick={copy}>
                   {copied ? 'COPIED ✓' : 'COPY MY RESULTS'}

@@ -7,7 +7,7 @@ import CrewMember from '../guide/CrewMember';
 import { HIDDEN, useGuide } from '../guide/GuideContext';
 import { AREAS } from '../areas';
 import { names } from '../lib/typography';
-import { BEHANCE_URL, EMAIL, LINKEDIN_URL, PHONE_DISPLAY, PHONE_TEL, PORTFOLIO_URL, mailto } from '../site';
+import { BEHANCE_URL, EMAIL, FACEBOOK_URL, INSTAGRAM_URL, LINKEDIN_URL, NEXTDOOR_URL, PHONE_DISPLAY, PHONE_TEL, mailto } from '../site';
 
 const ext = { target: '_blank', rel: 'noopener noreferrer' };
 const NewTab = () => <span className="visually-hidden"> (opens in a new tab)</span>;
@@ -28,10 +28,12 @@ export default function Footer() {
       <div className="footer-grid">
         <nav aria-label="Footer">
           <p className="footer-label">SITE</p>
-          <a href="#work">Work</a>
-          <a href="#process">Process</a>
-          <a href="#services">Services</a>
+          <a href="#clients">Client work</a>
+          <a href="#work">Before &amp; after</a>
           <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#website-options">Pricing</a>
+          <a href="#process">Process</a>
           <a href="#faq">FAQ</a>
         </nav>
         <div>
@@ -42,14 +44,20 @@ export default function Footer() {
         </div>
         <div>
           <p className="footer-label">ELSEWHERE</p>
+          <a href={FACEBOOK_URL} {...ext}>
+            Facebook ↗<NewTab />
+          </a>
+          <a href={INSTAGRAM_URL} {...ext}>
+            Instagram ↗<NewTab />
+          </a>
+          <a href={NEXTDOOR_URL} {...ext}>
+            Nextdoor ↗<NewTab />
+          </a>
           <a href={LINKEDIN_URL} {...ext}>
             LinkedIn ↗<NewTab />
           </a>
           <a href={BEHANCE_URL} {...ext}>
             Behance ↗<NewTab />
-          </a>
-          <a href={PORTFOLIO_URL} {...ext}>
-            Adam’s portfolio ↗<NewTab />
           </a>
         </div>
         <div className="footer-crew">
@@ -105,7 +113,7 @@ export default function Footer() {
 
       <div className="footer-base">
         <span>
-          © {new Date().getFullYear()} TINY CHIP STUDIO · <a href="/privacy.html">PRIVACY</a>
+          © <span suppressHydrationWarning>{new Date().getFullYear()}</span> TINY CHIP STUDIO · <a href="/privacy.html">PRIVACY</a>
         </span>
         <CrewMember crew="bit" pose="idle" peek="up" className="crew-on-footer" />
         <a href="#top">BACK TO TOP ↑</a>

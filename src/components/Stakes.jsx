@@ -6,9 +6,9 @@ import { stakes } from '../data';
 /** Success vs. failure: the two ways this goes. */
 export default function Stakes() {
   return (
-    <section className="stakes section-pad" aria-labelledby="stakes-title" data-guide="stakes">
+    <section id="stakes" className="stakes section-pad" aria-labelledby="stakes-title" data-guide="stakes">
       <div className="section-top">
-        <p className="section-tag">[ 06 / WHAT’S AT STAKE ]</p>
+        <p className="section-tag">[ 08 / WHAT’S AT STAKE ]</p>
         <span>PICK A COLUMN.</span>
       </div>
       <h2 id="stakes-title" className="display-head reveal">

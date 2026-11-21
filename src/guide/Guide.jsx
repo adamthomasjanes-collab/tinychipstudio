@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Chip from '../chip/Chip';
 import { CREW } from '../chip/sprite';
 import { guideLines } from '../data';
@@ -17,11 +17,34 @@ const DISMISS = 'tcs-guide-hidden';
  * crew news is announced to screen readers.
  */
 export default function Guide() {
+  const guideRef = useRef(null);
   const { found, news, total } = useGuide();
   const [section, setSection] = useState(null);
   const [visible, setVisible] = useState(false);
   const [open, setOpen] = useState(true);
   const [hidden, setHidden] = useState(false);
+  const [editing, setEditing] = useState(false);
+
+  useEffect(() => {
+    // Text enlargement can wrap the fixed dock onto two rows. Reserve its
+    // actual height so the last footer links can still scroll clear of it.
+    const observer = new ResizeObserver(() => {
+      const height = Math.ceil(guideRef.current.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--guide-height', height + 'px');
+    });
+    observer.observe(guideRef.current);
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty('--guide-height');
+    };
+  }, []);
+
+  useEffect(() => {
+    const sync = () => setEditing(Boolean(document.activeElement?.matches('input, textarea, select, [contenteditable="true"]')));
+    document.addEventListener('focusin', sync);
+    document.addEventListener('focusout', sync);
+    return () => { document.removeEventListener('focusin', sync); document.removeEventListener('focusout', sync); };
+  }, []);
 
   useEffect(() => {
     try {
@@ -71,6 +94,8 @@ export default function Guide() {
   // Each new section pops the tip open for a few seconds, then it tucks away.
   useEffect(() => {
     if (!section) return undefined;
+    setOpen(false);
+    if (section === 'work' || window.matchMedia('(max-width: 1100px)').matches) return undefined;
     setOpen(true);
     const t = setTimeout(() => setOpen(false), 7000);
     return () => clearTimeout(t);
@@ -89,7 +114,9 @@ export default function Guide() {
       </p>
 
       <aside
-        className={`guide ${visible || showNews ? 'is-visible' : ''} ${(open || showNews) && !hidden ? 'is-open' : ''} ${hidden ? 'is-dismissed' : ''}`}
+        ref={guideRef}
+        className={`guide ${(visible || showNews) && !editing ? 'is-visible' : ''} ${(open || showNews) && !hidden ? 'is-open' : ''} ${hidden ? 'is-dismissed' : ''}`}
+        inert={!(visible || showNews) || editing ? '' : undefined}
         aria-label="Chip, your guide"
       >
         <div className="guide-bubble" aria-hidden={!showNews}>

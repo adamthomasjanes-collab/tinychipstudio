@@ -1,10 +1,16 @@
-<!-- Tiny Chip Studio "website by" badge. Paste into the client site's footer.
-     It inherits the footer's text colour; Chip's body stays white. -->
-<style>.tcs-badge{position:relative;display:inline-flex;align-items:center;gap:.55em;color:inherit;font:inherit;font-size:12px;line-height:1.15;text-decoration:none;opacity:.8;transition:opacity .2s}
+<!-- Tiny Chip Studio "Website by" badge — v2 (2026-10-31)
+Readable by default: the smallest line ("Website by") is 14px. Size and colour are
+two custom properties on any parent (or on the badge itself):
+  --tcs-size   default 18px (the whole badge scales from this; keep ≥ 18px for the 14px floor)
+  --tcs-color  default: the surrounding text colour. Set it to the footer's main text
+               colour, not a muted grey, because the badge lightens itself slightly.
+     Paste into the footer. -->
+<style>.tcs-badge{position:relative;display:inline-flex;align-items:center;gap:.55em;color:var(--tcs-color,currentColor);font:inherit;font-size:var(--tcs-size,18px);line-height:1.15;text-decoration:none;opacity:.85;transition:opacity .2s}
 .tcs-badge:hover,.tcs-badge:focus-visible{opacity:1}
-.tcs-badge .tcs-chip{width:24px;height:24px;flex:none;overflow:visible}
+.tcs-badge:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+.tcs-badge .tcs-chip{width:1.667em;height:1.667em;flex:none;overflow:visible}
 .tcs-badge .tcs-text{display:flex;flex-direction:column}
-.tcs-badge small{font-size:.78em;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.tcs-badge small{font-size:.78em;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
 .tcs-badge b{font-weight:700;letter-spacing:.01em}
 .tcs-badge .tcs-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .tcs-badge .tcs-shut,.tcs-badge .tcs-wave{opacity:0}

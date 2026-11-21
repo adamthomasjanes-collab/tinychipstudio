@@ -42,11 +42,11 @@ export const badgeChipSvg = () =>
   `</g></svg>`;
 
 export const BADGE_CSS = `
-.tcs-badge{position:relative;display:inline-flex;align-items:center;gap:.55em;color:inherit;font:inherit;font-size:12px;line-height:1.15;text-decoration:none;opacity:.8;transition:opacity .2s}
+.tcs-badge{position:relative;display:inline-flex;align-items:center;gap:.55em;color:inherit;font:inherit;font-size:14px;line-height:1.15;text-decoration:none;opacity:.8;transition:opacity .2s}
 .tcs-badge:hover,.tcs-badge:focus-visible{opacity:1}
 .tcs-badge .tcs-chip{width:24px;height:24px;flex:none;overflow:visible}
 .tcs-badge .tcs-text{display:flex;flex-direction:column}
-.tcs-badge small{font-size:.78em;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.tcs-badge small{font-size:14px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
 .tcs-badge b{font-weight:700;letter-spacing:.01em}
 .tcs-badge .tcs-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .tcs-badge .tcs-shut,.tcs-badge .tcs-wave{opacity:0}

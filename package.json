@@ -5,18 +5,33 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "node scripts/cities.mjs && vite build && node scripts/prerender.mjs",
+    "build": "node scripts/sync-offers.mjs && node scripts/cities.mjs && vite build && node scripts/prerender.mjs && node scripts/stage-public.mjs && node scripts/audit-publish.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "format": "prettier --write \"src/**/*.{js,jsx,css}\" index.html",
     "brand": "node scripts/brand.mjs",
-    "cities": "node scripts/cities.mjs"
+    "cities": "node scripts/cities.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "qa:build": "node scripts/sync-offers.mjs && node scripts/cities.mjs && vite build && node scripts/prerender.mjs && node scripts/stage-public.mjs",
+    "qa:mobile": "npm run qa:build && playwright test --grep @mobile --project chromium-phone --project chromium-tablet",
+    "qa:visual": "npm run qa:build && playwright test --grep @visual",
+    "qa:social": "npm run qa:build && node scripts/qa-social.mjs",
+    "qa:full": "npm run qa:build && playwright test",
+    "qa:report": "node scripts/qa-report.mjs",
+    "qa:preview": "vite --mode qa --host 0.0.0.0 --port 4295 --strictPort",
+    "qa:artifact": "node scripts/qa-artifact.mjs",
+    "qa:diagnostics": "node scripts/qa-diagnostics.mjs",
+    "qa:performance": "node scripts/qa-performance.mjs",
+    "deploy:preview": "npm run build && node scripts/preview-headers.mjs && npx --yes netlify-cli@27.16.2 deploy --site 09673b2f-52ac-4015-9b81-9f2e89938d81 --alias preview --dir dist --no-build"
   },
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "eruda": "^3.4.3",
     "prettier": "^3.3.3",
     "vite": "^5.4.15"
   }

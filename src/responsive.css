@@ -1,0 +1,240 @@
+/* Offer presentation and responsive corrections, loaded after the legacy layers. */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+.header { z-index: 100; gap: 24px; padding-left: max(4vw, env(safe-area-inset-left)); padding-right: max(4vw, env(safe-area-inset-right)); }
+.header .brand { flex-shrink: 0; }
+.nav { gap: clamp(14px, 1.7vw, 26px); }
+.nav a { white-space: nowrap; }
+.nav .nav-phone { display: none; }
+.header .nav-contact { padding: 12px 20px; }
+.menu-toggle { min-width: 84px; min-height: 44px; font-size: 16px; }
+.nav-is-open .guide { visibility: hidden; }
+@media (max-width: 1100px) {
+  .header { height: 76px; }
+  .header .logo-chip { width: 52px; height: 52px; }
+  .header .wordmark { height: 34px; }
+  .menu-toggle { display: block; padding: 8px; color: var(--ink); background: transparent; border: 0; font-weight: 700; }
+  .menu-toggle span { color: #2448c4; margin-left: 8px; }
+  .header .nav { display: none; position: absolute; inset: 100% 0 auto; background: var(--paper); color: var(--ink); padding: 16px max(5vw, env(safe-area-inset-right)) calc(20px + env(safe-area-inset-bottom)) max(5vw, env(safe-area-inset-left)); border-bottom: 3px solid var(--ink); box-shadow: 0 12px 20px #0b0d1120; max-height: calc(100vh - 76px); max-height: calc(100dvh - 76px); overflow-y: auto; overscroll-behavior-y: contain; gap: 4px; align-items: stretch; flex-direction: column; }
+  .header .nav.open { display: flex; }
+  .header .nav a { min-height: 48px; padding: 12px 16px; white-space: normal; border-bottom: 1px solid #0b0d1120; }
+  .header .nav .nav-phone { display: block; }
+  .header .nav .nav-contact { margin-top: 8px; color: var(--paper); text-align: center; }
+  .hero-bug { display: none; }
+}
+.hero-offer { font: 700 18px/1.55 var(--mono); max-width: 39em; border-left: 4px solid #2448c4; padding-left: 16px; margin: 24px 0; }
+.hero .hero-actions { align-items: center; }
+.hero .hero-actions .button { white-space: normal; text-align: left; line-height: 1.4; max-width: 100%; padding: 16px 24px; }
+.hero-kicker { color: #2448c4; }
+.hero-line-three { text-wrap: balance; }
+.hero.hero--ba h1 { font-size: clamp(48px, 5.8vw, 100px) !important; line-height: .98; }
+.hero-facts { margin-top: 24px; }
+.hero-facts li::before { content: none; }
+.hero-ba-cap { max-width: 44em; }
+.hero-ba-cap .hero-concept-link { background: transparent; padding: 10px 0; border: 0; border-bottom: 2px solid var(--ink); font-size: 16px; margin-left: 0; white-space: normal; }
+.hero-ba-cap a { white-space: normal; margin-left: 0; }
+.hero-score { max-width: 100%; line-height: 1.5; white-space: normal; }
+.service-introduction { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.service-introduction .display-head { font-size: clamp(46px, 6vw, 88px); }
+.service-introduction p { font-size: 19px; line-height: 1.65; max-width: 38em; }
+.partner-benefits { padding: 0; margin: 32px 0 56px; list-style: none; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 28px; }
+.partner-benefits li { border-top: 3px solid var(--ink); padding-top: 18px; }
+.partner-benefits h3 { font: 700 28px/1.1 var(--display); margin: 0 0 12px; }
+.partner-benefits p { font-size: 18px; line-height: 1.6; margin: 0; }
+.flagship { position: relative; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(24px,4vw,64px); padding: clamp(24px,4vw,56px); background: var(--ink); color: var(--paper); border-top: 8px solid var(--lime); }
+.flagship .section-tag { color: var(--lime); }
+.flagship h3 { font: 700 clamp(52px,6vw,90px)/.95 var(--display); margin: 20px 0; }
+.flagship-price { font: 700 clamp(32px,4vw,50px)/1.15 var(--mono); color: var(--lime); margin: 24px 0 16px; letter-spacing: -.04em; }
+.flagship p { line-height: 1.65; }
+.flagship-disclosure { font-weight: 700; font-size: 18px; }
+.flagship .button { white-space: normal; text-align: left; line-height: 1.4; max-width: 100%; margin-top: 16px; }
+.flagship-services details { border-top: 1px solid #ffffff60; padding: 16px 0; }
+.flagship-services summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; min-height: 48px; font: 700 28px/1.15 var(--display); }
+.flagship-services details[open] summary > span:last-child { transform: rotate(45deg); }
+.flagship-services p { font-size: 17px; }
+.flagship-services .service-summary { color: var(--lime); }
+.flagship-limits { color: #d2d0ca; font-size: 16px; }
+.flagship .crew-on-service { right: -22px; top: auto; bottom: 8px; }
+.option--featured { background: var(--ink); color: var(--paper); border-top: 8px solid var(--lime); box-shadow: 7px 7px 0 var(--lime); }
+.option--featured .option-price { color: var(--lime); }
+.option--featured .option-cta { background: var(--lime); color: var(--ink); }
+.option--own { background: #fffdf6; }
+.option-comparison { width: 100%; margin: 0 0 28px; }
+.option-comparison > div { padding: 12px 0; border-top: 1px solid #88888866; }
+.option-comparison dt { font-weight: 700; font-size: 16px; }
+.option-comparison dd { margin: 4px 0 0; font-size: 16px; line-height: 1.5; }
+.review-note { border-top: 2px solid var(--ink); padding-top: 28px; }
+.review-note h3 { font: 700 32px/1.15 var(--display); margin: 0; }
+.review-note p { font-size: 18px; line-height: 1.6; }
+.case-sheet { height: min(95vh,1100px); height: min(95dvh,1100px); }
+.sheet-content { padding-bottom: max(40px, env(safe-area-inset-bottom)); overscroll-behavior-y: contain; }
+.sheet-toolbar { min-height: 76px; flex-shrink: 0; }
+.sheet-sys { font-size: 14px; }
+.sheet-eject { min-height: 44px; }
+.starter-needs { margin-bottom: 24px; }
+.field :is(input,select,textarea) { font-size: 18px; scroll-margin-block: calc(var(--header-height,76px) + 16px) 24px; }
+.text-link { display: inline-flex; align-items: center; min-height: 44px; }
+.guide:not(.is-visible) { visibility: hidden; }
+.guide-crew { font-size: 14px; }
+@media (min-width: 701px) and (max-width: 1100px) {
+  .hero.hero--ba { grid-template-columns: minmax(0,1fr); min-height: 0; padding-block: 40px 56px; }
+  .hero.hero--ba h1 { max-width: 100%; font-size: clamp(64px,8vw,88px) !important; }
+  .hero-copy { max-width: 760px; }
+  .hero-ba { max-width: 760px; width: 100%; margin-inline: auto; }
+  .client-feature { grid-template-columns: minmax(0,1fr); }
+  .service-introduction { grid-template-columns: minmax(0,1fr); gap: 0; }
+  .service-introduction .display-head { margin-bottom: 0; }
+  .process-grid { grid-template-columns: minmax(0,1fr); }
+  .process-item { display: grid; grid-template-columns: 42px 180px minmax(0,1fr); gap: 18px; min-height: 0; align-items: start; padding: 24px 0; border-top: 1px solid #0b0d1140; }
+  .process-item h3 { margin: 0; font-size: 42px; overflow-wrap: normal; }
+  .process-item p { margin: 0; max-width: none; font-size: 18px; }
+  .guide-bubble { max-width: 220px; }
+}
+@media (max-width: 850px) {
+  .flagship, .options-pair, .options-existing { grid-template-columns: minmax(0,1fr); }
+  .partner-benefits { grid-template-columns: minmax(0,1fr); gap: 24px; }
+  .partner-benefits li { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); gap: 20px; }
+}
+@media (max-width: 700px) {
+  .header { height: 72px; }
+  .header .nav { max-height: calc(100vh - 72px); max-height: calc(100dvh - 72px); }
+  .hero.hero--ba h1 { font-size: clamp(42px,11.5vw,74px) !important; }
+  /* The small viewport stays stable as browser controls slide away. Keep the
+     existing phone scale on taller screens and reserve room for the offer on
+     shorter ones. rem floors respect the visitor's default font size. */
+  @supports (height: 100svh) {
+    @media (orientation: portrait) {
+      :root {
+        --phone-reading: clamp(1rem, 2.45svh, 1.125rem);
+        --phone-section-cap: max(2.5rem, 6.6svh);
+      }
+      .hero.hero--ba h1 {
+        font-size: min(clamp(2.625rem, 11.5vw, 4.625rem), max(2.25rem, 6svh)) !important;
+      }
+      .hero .hero-offer { font-size: var(--phone-reading); }
+      .hero .hero-offer > span { font-size: clamp(.875rem, 2.05svh, 1rem); }
+    }
+  }
+  .hero .hero-actions { gap: 18px; }
+  .hero .hero-actions .button { justify-content: space-between; }
+  .hero-offer { font-size: 18px; }
+  .service-introduction, .partner-benefits li { display: block; }
+  .service-introduction .display-head { margin-bottom: 24px; }
+  .partner-benefits { margin-bottom: 36px; }
+  .flagship-services summary { font-size: 26px; }
+  .flagship { padding: 24px 20px; }
+  .option { padding: 24px 20px; }
+  .option-price { font-size: 30px; }
+  .process-item h3 { overflow-wrap: normal; font-size: 42px; }
+  .sheet-toolbar { padding: 10px 16px; gap: 12px; }
+  .sheet-sys, .sheet-grip { display: none; }
+  .sheet-eject { margin-left: auto; }
+  .sheet-close-cta .button { white-space: normal; line-height: 1.4; }
+  .guide { padding-left: max(12px,env(safe-area-inset-left)); padding-right: max(12px,env(safe-area-inset-right)); }
+  .site-footer { padding-bottom: max(calc(112px + env(safe-area-inset-bottom)), calc(var(--guide-height, 96px) + 16px)); }
+}
+@media (max-height: 500px) and (max-width: 1100px) {
+  .guide { display: none; }
+  .case-sheet { height: 100vh; height: 100dvh; }
+  .sheet-toolbar { min-height: 56px; }
+}
+
+/* V3 offer refinement: two monthly choices, quieter alternatives. */
+.preview-review { background: #e9e5d8; color: var(--ink); padding: 14px 5vw; border-bottom: 1px solid #0b0d1140; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; font-size: 14px; }
+.preview-review p { margin: 0; flex: 1 1 600px; line-height: 1.5; }
+.preview-review a { font-weight: 700; text-decoration: underline; min-height: 44px; display: inline-flex; align-items: center; }
+.hero-offer strong,.hero-offer > span { display: block; }
+.hero-offer > span { font-weight: 400; font-size: 16px; margin-top: 8px; line-height: 1.55; }
+.partner-benefits .benefit-label { color: #2448c4; font-size: 14px; font-weight: 700; letter-spacing: .08em; margin-bottom: 12px; }
+.options-pair { align-items: stretch; }
+.option--care { background: #fffdf6; color: var(--ink); box-shadow: none; }
+.option--care .option-cta { background: var(--ink); color: var(--paper); box-shadow: none; }
+.option--care a:focus-visible { outline-color: #2448c4; }
+.option--featured { box-shadow: none; border: 2px solid var(--ink); border-top: 8px solid var(--lime); }
+.option .option-code { line-height: 1.5; }
+.option .option-price { margin-bottom: 24px; }
+.option .option-price span { line-height: 1.5; }
+.option .option-comparison { margin-top: 12px; }
+.option-readiness { padding: 16px; border: 1px solid #c7ff5880; font-size: 16px; line-height: 1.55; }
+.option-readiness strong { display: block; color: var(--lime); font-size: 14px; margin-bottom: 8px; }
+.allowance-review { padding: 22px 24px; margin: 28px 0; border-left: 4px solid #2448c4; background: #e9e5d8; scroll-margin-top: 100px; }
+.allowance-review strong { font-size: 14px; letter-spacing: .04em; }
+.allowance-review p { font-size: 16px; line-height: 1.6; margin: 8px 0 0; }
+.options-alternatives .options-existing { margin: 0; border: 0; border-top: 2px solid var(--ink); background: transparent; box-shadow: none; padding: 28px 0; }
+.options-existing h4 { text-transform: uppercase; }
+.options-existing h4 span { display: block; margin-top: 10px; }
+.alternative-cadence { font-size: 14px; line-height: 1.5; }
+.service-foundation { position: relative; background: var(--ink); color: var(--paper); padding: clamp(24px,4vw,48px); margin-block: 44px 32px; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 40px; }
+.service-foundation h3 { font: 700 clamp(36px,4vw,58px)/1.05 var(--display); margin: 20px 0; }
+.service-foundation p { font-size: 17px; line-height: 1.6; }
+.service-foundation .section-tag,.service-foundation .service-summary { color: var(--lime); }
+.service-foundation .crew-on-service { right: -20px; top: auto; bottom: 4px; }
+@media (max-width: 850px) { .service-foundation { grid-template-columns: minmax(0,1fr); gap: 20px; } .partner-benefits li { display: block; } }
+@media (max-width: 700px) { .option { padding: 24px 20px; } .preview-review { padding-block: 10px; } .service-foundation { padding: 24px 20px; } }
+
+.option-highlights { padding-left: 20px; margin: 0 0 24px; font-size: 16px; line-height: 1.55; }
+.option-highlights li + li { margin-top: 10px; }
+.option-inclusions { width: 100%; margin-bottom: 24px; }
+.option-inclusions summary { font: 700 16px/1.5 var(--mono); padding: 14px 0; min-height: 48px; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; cursor: pointer; display: flex; justify-content: space-between; gap: 20px; }
+.option-inclusions summary:focus-visible { outline: 3px solid #2448c4; outline-offset: 4px; }
+.option--featured .option-inclusions summary:focus-visible { outline-color: var(--lime); }
+.option-inclusions[open] summary span { transform: rotate(45deg); }
+.option-inclusions .option-comparison { margin-bottom: 0; }
+
+/* ------------------------------------------------------------ page order
+   About and Pricing are their own sections (nav: Work, About, Services,
+   Pricing, Process, FAQ). */
+.about-section { background: var(--blue); color: var(--ink); }
+.about-section > .section-top { border-color: #10101060; }
+.about-section > .section-top .section-tag { color: var(--ink); }
+.about-section > .section-top > span { color: var(--ink); }
+.about-section .founder { margin-top: clamp(32px, 5vw, 64px); }
+.pricing { background: var(--paper); color: var(--ink); }
+.pricing > .section-top { border-color: #0b0d1150; }
+.pricing > .section-top > span { color: #4e4750; }
+.pricing .section-tag { color: #2448c4; }
+.pricing .website-options { margin: clamp(32px, 5vw, 56px) 0 0; border-top: 0; padding-top: 0; }
+
+/* Client quotes are the clients' own words: set them as reading text, not as a
+   shouted display headline. */
+.client-quote p { font: 600 clamp(19px, 1.5vw, 22px)/1.45 var(--mono); text-transform: none; letter-spacing: 0; }
+/* Three client sites sit in one row on wide screens instead of leaving an orphan. */
+@media (min-width: 1100px) { .client-more { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.client-more + .client-gallery-bridge { margin: 36px 0 0; }
+/* Services and Pricing share the cream background: a hard rule and less air
+   between them so they read as two stops, not one long gap. */
+.services { padding-bottom: clamp(48px, 6vw, 72px); }
+.services + .pricing { border-top: 3px solid var(--ink); padding-top: clamp(48px, 6vw, 80px); }
+
+/* Compact reading scale for the Instagram phone browser. Rems retain the
+   visitor's larger default text setting. Controls keep their touch area. */
+@media (max-width: 700px) {
+  html.instagram-browser {
+    --ig-copy: max(14px, .875rem);
+    --ig-label: max(16px, 1rem);
+    --ig-section: max(28px, 1.875rem);
+  }
+  .instagram-browser #root .hero.hero--ba h1 {
+    font-size: max(32px, 2rem) !important;
+  }
+  .instagram-browser #root :is(main h2, .ownership-title, .footer-big-link, .sheet-lead h2, .panel-title) {
+    font-size: var(--ig-section);
+    overflow-wrap: anywhere;
+  }
+  .instagram-browser #root :is(.problem-card h3, .client-feature h3, .client-card-name,
+    .ba-story h3, .partner-benefits h3, .service-foundation h3, .review-note h3,
+    .process-item h3, .stakes-col h3, .option h4, .options-existing h4, .option-price) {
+    font-size: max(22px, 1.375rem);
+  }
+  .instagram-browser #root :is(main p:not(.option-price), .sheet-content p, main li,
+    .option-comparison dt, .option-comparison dd, .option-price span, .hero-offer > span,
+    .client-card-line, .client-card-quote, .ba-tab small, .ba-notes,
+    .hero-ba-cap a, .button, .text-link, .nav-label, .guide-dock-label, .guide-mobile-cta) {
+    font-size: var(--ig-copy);
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+  .instagram-browser #root :is(.ba-tab strong, .flagship-services summary, .faq-list summary,
+    .field input, .field textarea, .field select) {
+    font-size: var(--ig-label);
+  }
+}

@@ -1,61 +1,101 @@
-import React from 'react';
-import { engagements } from '../data';
-import { SCORECARD_URL } from '../site';
-import { tidy } from '../lib/typography';
-import CrewMember from '../guide/CrewMember';
-import Chip from '../chip/Chip';
-
+import React from "react";
+import { serviceGroups, limitations } from "../offers";
+import CrewMember from "../guide/CrewMember";
 export default function Services() {
   return (
-    <section id="services" className="services section-pad" data-guide="services">
+    <section
+      id="services"
+      className="services section-pad"
+      data-guide="services"
+      aria-labelledby="services-title"
+    >
       <div className="section-top">
-        <p className="section-tag">[ 05 / WAYS TO WORK TOGETHER ]</p>
-        <span>CREATIVE THINKING. PRACTICAL EXECUTION.</span>
+        <p className="section-tag">[ 05 / WHAT’S INCLUDED ]</p>
+        <span>ATTRACT. CONVERT. UNDERSTAND.</span>
       </div>
-      <h2 className="display-head reveal">
-        WHERE SHOULD
-        <br />
-        <em>WE START?</em>
-      </h2>
-      <p className="services-intro">
-        {tidy(
-          'You don’t need a technical brief. Start with what your business needs. Small improvements and larger website projects are both welcome. Best for owner-operated businesses, local services and independent creators.',
-        )}
-      </p>
-
-      <div className="service-list">
-        {engagements.map((s, i) => (
-          <article className="service" key={s.topic}>
-            <span className="service-n">/0{i + 1}</span>
-            <div className="service-content">
-              <h3>{s.title}</h3>
-              <p className="service-promise">{tidy(s.intro)}</p>
-              <p className="service-body">{tidy(s.detail)}</p>
-              <p className="service-tags">{s.tags}</p>
-              {s.price && <p className="service-price">{s.price}</p>}
-            </div>
-            <a
-              href="#contact"
-              className="service-arrow"
-              aria-label={s.link}
-              onClick={() => window.dispatchEvent(new CustomEvent('tcs:need', { detail: s.need }))}
-            >
-              ↗
-            </a>
-            {i === 1 && <CrewMember crew="pixel" pose="idle" peek="side" className="crew-on-service" />}
-          </article>
-        ))}
-      </div>
-
-      <aside className="scorecard on-dark" aria-labelledby="scorecard-title">
-        <Chip pose="point" className="scorecard-chip" />
+      <div className="service-introduction">
+        <h2 id="services-title" className="display-head reveal">
+          GOOD BUSINESS.
+          <br />
+          <em>BETTER FOLLOW-THROUGH.</em>
+        </h2>
         <div>
-          <span className="section-tag">A USEFUL STARTING POINT</span>
-          <h3 id="scorecard-title">NOT SURE WHAT NEEDS WORK?</h3>
-          <p>{tidy('Fifteen plain-language questions, about two minutes. You get a prioritized list of what to fix first, right on screen. No email required.')}</p>
+          <p>
+            A good website helps people see why your business is worth their
+            time. What happens after they reach out matters, too.
+          </p>
+          <p>
+            We build distinctive websites, look after the details and help you
+            plan a clearer path from first interest to the next conversation.
+          </p>
         </div>
-        <a className="button button-lime" href={SCORECARD_URL} data-track="scorecard">
-          SEE HOW YOUR WEBSITE MEASURES UP <span aria-hidden="true">↗</span>
+      </div>
+      <ol className="partner-benefits">
+        <li>
+          <p className="benefit-label">ATTRACT</p>
+          <h3>Make a great first impression.</h3>
+          <p>
+            A website that makes your business easy to understand and trust.
+          </p>
+        </li>
+        <li>
+          <p className="benefit-label">CONVERT</p>
+          <h3>Make it easy to reach you.</h3>
+          <p>
+            Useful contact forms, clear next steps and appointment options where
+            appropriate.
+          </p>
+        </li>
+        <li>
+          <p className="benefit-label">UNDERSTAND</p>
+          <h3>Keep opportunities in view.</h3>
+          <p>
+            Practical reporting, with organized inquiries and follow-up tools
+            configured for your business with Growth.
+          </p>
+        </li>
+      </ol>
+      <div className="service-foundation" aria-labelledby="foundation-title">
+        <div>
+          <p className="section-tag">THE SHARED FOUNDATION</p>
+          <h3 id="foundation-title">
+            BUILT WITH CARE.
+            <br />
+            BACKED BY PEOPLE.
+          </h3>
+          <p>
+            Every monthly plan begins with a properly scoped website and a
+            direct relationship with the studio.
+          </p>
+        </div>
+        <div className="flagship-services">
+          {serviceGroups.map((group) => (
+            <details key={group.title}>
+              <summary>
+                <span>{group.title}</span>
+                <span aria-hidden="true">+</span>
+              </summary>
+              <p className="service-summary">{group.summary}</p>
+              <p>{group.details}</p>
+            </details>
+          ))}
+          <p className="flagship-limits">{limitations}</p>
+        </div>
+        <CrewMember
+          crew="pixel"
+          pose="idle"
+          peek="side"
+          className="crew-on-service"
+        />
+      </div>
+      <aside className="review-note">
+        <h3>Not sure where to start?</h3>
+        <p>
+          The free website scorecard helps you spot what deserves attention
+          first.
+        </p>
+        <a className="text-link" href="#scorecard" data-track="scorecard">
+          FREE WEBSITE SCORECARD ↗
         </a>
       </aside>
     </section>

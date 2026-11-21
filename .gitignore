@@ -1,18 +1,34 @@
 # Dependencies and generated builds
 node_modules/
 dist/
+dist-qa/
 .vite/
 *.tsbuildinfo
+**/.netlify/
+**/.ssr/
+**/.venv/
+**/venv/
+**/.build-tools/
+**/__pycache__/
+*.pyc
+*.pyd
 *.tmp
 
 # Local environment configuration
 .env
 .env.local
 .env.*.local
+.env.*
 !.env.example
+*.pem
+*.p12
+*.pfx
 
 # Logs and test artifacts
 *.log
+*.zip
+*.7z
+*.rar
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -26,3 +42,7 @@ test-results/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Nested Vite development folders live in public but must never expose their private notes in git
+public/*/docs/
+public/*/*.zip

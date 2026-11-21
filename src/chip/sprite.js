@@ -204,9 +204,28 @@ export const CREW = {
   bit: { name: 'Bit', body: '#e4ff9f', shade: '#bde85c', role: 'The smallest one' },
 };
 
-/** Serialise runs to SVG <rect> markup (used by the static generators). */
+/**
+ * Merge a layer's runs into one path per colour. Runs in a layer never overlap,
+ * so this draws exactly the same pixels as one <rect> per run, with a fraction
+ * of the markup (the page renders a couple of dozen Chips).
+ */
+const pathCache = new WeakMap();
+export function runsToPaths(runs) {
+  let out = pathCache.get(runs);
+  if (out) return out;
+  const byColour = new Map();
+  for (const r of runs) {
+    const d = `M${r.x} ${r.y}h${r.w}v1h-${r.w}z`;
+    byColour.set(r.c, (byColour.get(r.c) || '') + d);
+  }
+  out = [...byColour].map(([c, d]) => ({ c, d }));
+  pathCache.set(runs, out);
+  return out;
+}
+
+/** Serialise runs to SVG path markup (used by the static generators). */
 export function runsToSvg(runs, colors = COLORS) {
-  return runs.map((r) => `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="1" fill="${colors[r.c]}"/>`).join('');
+  return runsToPaths(runs).map(({ c, d }) => `<path d="${d}" fill="${colors[c]}"/>`).join('');
 }
 
 /* ------------------------------------------------------------------ mini Chip */

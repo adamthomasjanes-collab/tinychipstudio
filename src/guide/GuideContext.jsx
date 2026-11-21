@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { createContext, startTransition, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { CREW } from '../chip/sprite';
 import { track } from '../lib/track';
 
@@ -40,7 +40,8 @@ export function GuideProvider({ children }) {
 
   useEffect(() => {
     foundRef.current = read();
-    setFound(foundRef.current);
+    // Do not interrupt hydration of the lazy tool boundary with saved UI state.
+    startTransition(() => setFound(foundRef.current));
     return () => clearTimeout(timer.current);
   }, []);
 

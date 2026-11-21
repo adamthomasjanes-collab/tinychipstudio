@@ -20,9 +20,7 @@ export function Wordmark({ lines = 2, className = '' }) {
       aria-hidden="true"
       focusable="false"
     >
-      {runs.map((r, i) => (
-        <rect key={i} x={r.x} y={r.y} width={r.w} height={1} fill="currentColor" />
-      ))}
+      <path d={runs.map((r) => `M${r.x} ${r.y}h${r.w}v1h-${r.w}z`).join('')} fill="currentColor" />
     </svg>
   );
 }

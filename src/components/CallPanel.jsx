@@ -4,6 +4,7 @@ import { BOOKING_URL, PHONE_DISPLAY, PHONE_TEL } from '../site';
 import { sendForm } from '../lib/forms';
 import { trackLead } from '../lib/track';
 import { tidy } from '../lib/typography';
+import { bookingProps } from '../lib/booking';
 
 const WINDOWS = ['Morning (9–12)', 'Afternoon (12–4)', 'Evening (4–6)'];
 const TOPICS = ['A new website', 'Fixing my current site', 'Not sure yet'];
@@ -45,7 +46,7 @@ export default function CallPanel() {
         <div>
           <h3>{tidy('Pick a time that suits you.')}</h3>
           <p>{tidy('Fifteen minutes, no prep needed. Tell us what’s going on and we’ll tell you honestly whether we can help.')}</p>
-          <a className="button button-lime" href={BOOKING_URL} target="_blank" rel="noopener noreferrer" data-track="book-call">
+          <a className="button button-lime" {...bookingProps('book-call-panel', 'book-call')}>
             SEE OPEN TIMES <span aria-hidden="true">↗</span>
             <span className="visually-hidden"> (opens in a new tab)</span>
           </a>
@@ -63,9 +64,9 @@ export default function CallPanel() {
     if (Object.keys(x).length) return;
     setState('sending');
     try {
-      const ok = await sendForm('call-request', { ...f, day: day.long });
-      setState(ok ? 'sent' : 'fallback');
-      if (ok) trackLead('call-request');
+      const result = await sendForm('call-request', { ...f, day: day.long });
+      setState(result === 'sent' ? 'sent' : result === 'timeout' ? 'unsure' : 'fallback');
+      if (result === 'sent') trackLead('call-request');
     } catch {
       setState('fallback');
     }
@@ -83,13 +84,13 @@ export default function CallPanel() {
     );
   }
 
-  if (state === 'fallback') {
+  if (state === 'fallback' || state === 'unsure') {
     return (
       <div className="call">
         <Chip pose="think" className="sc-chip" />
         <div>
-          <h3>{tidy('That didn’t send from here.')}</h3>
-          <p>{tidy('Quickest fix: call or text us and we’ll set a time.')}</p>
+          <h3>{tidy(state === 'unsure' ? 'We couldn’t confirm that request arrived.' : 'That didn’t send from here.')}</h3>
+          <p>{tidy(state === 'unsure' ? 'It may have reached us. To be sure, call or text and we’ll set a time.' : 'Quickest fix: call or text us and we’ll set a time.')}</p>
           <div className="sc-actions">
             <a className="button button-lime" href={`tel:${PHONE_TEL}`}>
               CALL {PHONE_DISPLAY}

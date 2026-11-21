@@ -1,3 +1,7 @@
+# Historical QA report
+
+For the current build, browser and offer audit, see `QA-REPORT-2026-11-01.md` and `QA-GUIDE.md`. The results below describe an earlier version.
+
 # QA report (v2)
 
 ## Verified (esbuild bundle + headless Chromium)

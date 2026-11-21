@@ -1,6 +1,3 @@
-# Tiny Chip Studio has its own Netlify site (www.tinychipstudio.com) with
-# "Base directory" set to tinychipstudio. Netlify reads this file from there.
-
 [build]
   # Netlify installs dependencies from package-lock.json automatically first.
   command = "npm run build"
@@ -9,8 +6,7 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# The scorecard and call booking live inside the page (#scorecard, #book-call).
-# Old shared links keep working.
+# The scorecard lives inside the page (#scorecard). Old shared links keep working.
 [[redirects]]
   from = "/scorecard"
   to = "/#scorecard"
@@ -19,10 +15,14 @@
   from = "/scorecard/"
   to = "/#scorecard"
   status = 301
+# Short link for texts and emails: straight to the 15-minute calendar (the
+# Calendly event is 15 minutes despite its /30min address). Keep in sync with
+# BOOKING_URL in src/site.js. 302, so it can change later without browsers
+# remembering the old target.
 [[redirects]]
   from = "/book"
-  to = "/#book-call"
-  status = 301
+  to = "https://calendly.com/adamthomasjanes/30min?utm_source=tinychipstudio.com&utm_medium=short-link&utm_campaign=book-call"
+  status = 302
 
 # Everything else that isn't a real file gets the friendly 404 page.
 [[redirects]]
@@ -39,7 +39,6 @@
     Strict-Transport-Security = "max-age=31536000"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
 
-# The badge demo page is for copy-paste, not for search results.
 [[headers]]
   for = "/badge/*"
   [headers.values]

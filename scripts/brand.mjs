@@ -104,7 +104,7 @@ for (const [suffix, pal, text] of [
 out('brand/app-icon.svg', svg(40, 40, `<rect width="40" height="40" fill="#c7ff58"/>` + chipMark.map((l) => rects(l, base, 4, 3)).join('')));
 
 /* ---------------------------------------------------------------- badge */
-const SITE = 'https://www.tinychipstudio.com/';
+const SITE = 'https://tinychipstudio.com/';
 const LABEL = 'tinychipstudio.com';
 const snippet = `<style>${BADGE_CSS}</style>\n${badgeHtml({ href: SITE, label: LABEL })}`;
 
@@ -143,8 +143,8 @@ out(
   `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tiny Chip Studio badge</title><meta name="robots" content="noindex">
 <style>body{margin:0;font:16px/1.5 system-ui,sans-serif;background:#f4f1e8;color:#0b0d11}main{max-width:760px;margin:0 auto;padding:48px 20px}
-.demo{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 24px;margin:16px 0 34px;border:2px solid #0b0d11}
-.dark{background:#0b0d11;color:#f4f1e8}.blue{background:#5c89ff;color:#0b0d11}pre{white-space:pre-wrap;word-break:break-all;background:#fff;border:2px solid #0b0d11;padding:16px;font-size:12px}</style></head>
+.demo{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;padding:22px 24px;margin:16px 0 34px;border:2px solid #0b0d11}
+.dark{background:#0b0d11;color:#f4f1e8}.blue{background:#5c89ff;color:#0b0d11}.blue .tcs-badge,.blue .tcs-badge small{opacity:1}small,code{font-size:14px}img{max-width:100%;height:auto}pre{white-space:pre-wrap;word-break:break-all;background:#fff;border:2px solid #0b0d11;padding:16px;font-size:14px}</style></head>
 <body><main><h1>“Website by” badge</h1><p>The badge takes the footer’s text colour. Chip blinks every few seconds and waves on hover. Animation is off for visitors who prefer reduced motion.</p>
 <div class="demo"><span>© Client Business</span>${snippet}</div>
 <div class="demo dark"><span>© Client Business</span>${badgeHtml({ href: SITE, label: LABEL })}</div>

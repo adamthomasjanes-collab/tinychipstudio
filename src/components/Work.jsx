@@ -1,17 +1,18 @@
 import React, { useRef, useState } from 'react';
 import { projects } from '../projects';
-import { clientWork, transformations } from '../transformations';
+import { transformations } from '../transformations';
 import { tidy, names } from '../lib/typography';
+import { startInquiry } from '../lib/inquiry';
 import BeforeAfter from '../fx/BeforeAfter';
-import CrewMember from '../guide/CrewMember';
+import { websiteAction } from '../lib/project-links';
+import { track } from '../lib/track';
 
 const byId = (id) => projects.find((p) => p.id === id);
 
 /**
- * The work, in two parts:
- *  1. Before / after: five real businesses, their site as we found it, our
- *     redesign, and the three things we changed and why.
- *  2. Hired work: the client projects, each opening the full case-study sheet.
+ * Before / after: real businesses, their site as we found it, our redesign,
+ * and the three things we changed and why. Each one is labelled exactly
+ * (concept, approved design…). Hired work lives in Clients.jsx.
  */
 export default function Work({ onOpen }) {
   const [active, setActive] = useState(0);
@@ -30,22 +31,26 @@ export default function Work({ onOpen }) {
   };
 
   return (
-    <section id="work" className="work section-pad on-dark" data-guide="work">
+    <section id="work" className="work section-pad on-dark" data-guide="work" aria-labelledby="work-title">
       <div className="section-top">
         <p className="section-tag">[ 03 / BEFORE &amp; AFTER ]</p>
         <span>WHAT WE CHANGED. AND WHY.</span>
       </div>
-      <h2 className="display-head reveal">
+      <div className="work-heading">
+      <div className="work-heading-copy">
+      <h2 id="work-title" className="display-head reveal">
         BEFORE. AFTER.
         <br />
         <em>AND WHY.</em>
       </h2>
       <p className="work-intro">
         {tidy(
-          'Real Ohio businesses, their websites as we found them, and what we changed. Drag Chip to compare. Every project says plainly whether it was hired work, an approved design or a concept.',
+          'Drag Chip to compare. Read the story behind each design, or explore the website where a demo is available.',
         )}
       </p>
 
+      </div>
+      <div className="ba-picker"><p className="section-tag">CHOOSE A BEFORE &amp; AFTER</p>
       <div className="ba-tabs" role="tablist" aria-label="Before and after projects" onKeyDown={onKey}>
         {transformations.map((x, i) => (
           <button
@@ -58,18 +63,21 @@ export default function Work({ onOpen }) {
             aria-controls="ba-panel"
             tabIndex={i === active ? 0 : -1}
             className="ba-tab"
-            onClick={() => setActive(i)}
+            onClick={() => { setActive(i); track('comparison_select', { project: x.id }); }}
           >
-            <span className="ba-tab-n">0{i + 1}</span>
-            <strong>{names(x.name)}</strong>
-            <small>{names(x.place)}</small>
+            <span className="ba-tab-n">{String(i + 1).padStart(2, '0')}</span>
+            {/* Compact labels need word breaks, including older data with NBSPs. */}
+            <strong>{x.name.replace(/\u00a0/g, ' ')}</strong>
+            <small>{x.place.replace(/\u00a0/g, ' ')}</small>
           </button>
         ))}
       </div>
 
+      </div></div>
+
       <div className="ba-panel" id="ba-panel" role="tabpanel" aria-labelledby={`ba-tab-${t.id}`} key={t.id}>
         <div className="ba-media">
-          <BeforeAfter before={t.before} after={t.after} label={t.name} url={t.url.replace(/^https?:\/\//, '').replace(/\/$/, '')} />
+          <BeforeAfter before={t.before} after={t.after} label={t.name} url={t.url ? t.url.replace(/^https?:\/\//, '').replace(/\/$/, '') : `${t.name} · archived design`} />
           <p className="ba-notes">
             <span>BEFORE / {t.before.note}</span>
             <span>AFTER / {t.after.note}</span>
@@ -78,23 +86,34 @@ export default function Work({ onOpen }) {
 
         <div className="ba-story">
           <p className={`ba-status ba-status--${t.kind}`}>{t.status}</p>
-          <h3>{tidy(t.headline)}</h3>
+          <h3>{names(t.name)}</h3>
+          <p className="ba-idea">{tidy(t.headline)}</p>
           <p className="ba-sector">
             {names(t.sector)} · {names(t.place)}
           </p>
 
-          <h4 className="ba-h">WHAT WAS IN THE WAY</h4>
-          <ul className="ba-way">
-            {t.inTheWay.map((w) => (
-              <li key={w}>{tidy(w)}</li>
-            ))}
-          </ul>
+          <div className="ba-explore">
+            {t.url && <a className="button button-lime" href={t.url} target="_blank" rel="noopener noreferrer" onClick={() => track('concept_open', { project: t.id, source: 'comparison' })}>
+              {websiteAction(t.kind)} <span aria-hidden="true">↗</span>
+            </a>}
+            <p>{t.url ? 'Explore the website · opens in a new tab' : 'Archived design · screenshots and case study available here'}</p>
+            {project && <button type="button" className="text-link" onClick={(e) => { track('case_study_open', { project: t.id, source: 'comparison' }); onOpen(project, e.currentTarget); }}>READ CASE STUDY <span aria-hidden="true">↑</span></button>}
+          </div>
+
+          <details className="ba-way-more">
+            <summary>WHAT WAS IN THE WAY</summary>
+            <ul className="ba-way">
+              {t.inTheWay.map((w) => (
+                <li key={w}>{tidy(w)}</li>
+              ))}
+            </ul>
+          </details>
 
           <h4 className="ba-h">WHAT WE CHANGED → WHY</h4>
           <ol className="ba-moves">
             {t.moves.map((m, i) => (
               <li key={m.did}>
-                <span className="ba-move-n">0{i + 1}</span>
+                <span className="ba-move-n">{String(i + 1).padStart(2, '0')}</span>
                 <p className="ba-did">{tidy(m.did)}</p>
                 <p className="ba-why">
                   <span>WHY</span> {tidy(m.why)}
@@ -103,55 +122,25 @@ export default function Work({ onOpen }) {
             ))}
           </ol>
 
+          {t.game && (
+            <p className="ba-game">
+              <a className="text-link" href={t.game.url} target="_blank" rel="noopener noreferrer" data-track={`work-${t.id}-game`}>
+                PLAY {t.game.name.toUpperCase()} ↗<span className="visually-hidden"> (opens in a new tab)</span>
+              </a>
+              <span>{t.game.description}</span>
+            </p>
+          )}
+
           <div className="ba-actions">
-            <a className="button button-lime" href={t.url} target="_blank" rel="noopener noreferrer" data-track={`work-${t.id}`}>
-              {t.linkLabel} <span aria-hidden="true">↗</span>
-              <span className="visually-hidden"> (opens in a new tab)</span>
-            </a>
-            {project && (
-              <button type="button" className="text-link" onClick={() => onOpen(project)}>
-                OPEN THE FULL CASE FILE ↑
-              </button>
-            )}
+            <button type="button" className="text-link" onClick={() => startInquiry({ project: t.name, source: `work-${t.id}` })}>
+              TALK ABOUT A WEBSITE LIKE THIS <span aria-hidden="true">↗</span>
+            </button>
           </div>
         </div>
       </div>
 
-      <div className="hired">
-        <div className="hired-head">
-          <p className="section-tag">HIRED WORK / LIVE NOW</p>
-          <h3>{tidy('Real clients. Real websites. Their words.')}</h3>
-        </div>
-        <div className="work-grid work-grid--hired">
-          {clientWork.map(byId).filter(Boolean).map((p, i) => (
-            <article key={p.id} className={`project project-${i}`} style={{ '--project-color': p.color }}>
-              <button type="button" className="project-hit" onClick={() => onOpen(p)} aria-label={`Open ${p.name} case study`}>
-                <div className="project-image">
-                  <img src={p.image} alt={p.alt} width={p.imageSize[0]} height={p.imageSize[1]} loading="lazy" decoding="async" />
-                  <span className="project-circle" aria-hidden="true">↗</span>
-                </div>
-                <div className="project-caption">
-                  <div>
-                    <span className="project-number">{p.type}</span>
-                    <h3>{names(p.name)}</h3>
-                    <p>{names(p.sector)}</p>
-                    {p.quote && (
-                      <q className="project-quote">
-                        {tidy(p.quote.text)} <cite>{names(p.quote.by)}</cite>
-                      </q>
-                    )}
-                  </div>
-                  <span className="project-action" aria-hidden="true">PULL UP THE FILE ↑</span>
-                </div>
-              </button>
-              {i === 1 && <CrewMember crew="byte" pose="wow" peek="up" className="crew-on-card" />}
-            </article>
-          ))}
-        </div>
-      </div>
-
       <p className="work-note">
-        {tidy('Concepts are our own redesigns of real businesses’ websites, made to show what we’d change. They weren’t commissioned, and we don’t claim results for them.')}
+        {tidy('Concepts are independent redesigns—not commissioned work. No business results are claimed.')}
       </p>
     </section>
   );

@@ -1219,8 +1219,8 @@ a:focus-visible {
   transition: background .2s,padding .2s;
 }
 
-.service:hover {
-  background: #e7ffbc;
+.service-list .service:is(:hover, :focus-within) {
+  background: var(--service-hover, #e7ffbc);
   padding-left: 15px;
 }
 
@@ -1640,6 +1640,7 @@ footer {
 }
 
 .service:nth-child(2) {
+  --service-hover: #dce5ff;
   background: #5c89ff;
   color: #0b0d11;
   padding-inline: 18px;
@@ -1651,6 +1652,7 @@ footer {
 }
 
 .service:nth-child(3) {
+  --service-hover: #ffd8ed;
   background: #ff69bd;
   color: #0b0d11;
   padding-inline: 18px;
@@ -1888,8 +1890,7 @@ footer {
 .sheet-image img {
   display: block;
   width: 100%;
-  max-height: 650px;
-  object-fit: contain;
+  height: auto;
   box-shadow: 14px 14px 0 #0b0d11;
 }
 

@@ -3,19 +3,26 @@ import Chip from '../chip/Chip';
 
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const Img = ({ src, alt, eager, sizes }) => (
-  <img
-    src={`${src}.webp`}
-    srcSet={`${src}-768.webp 768w, ${src}.webp 1280w`}
-    sizes={sizes}
-    alt={alt}
-    width="1280"
-    height="720"
-    loading={eager ? 'eager' : 'lazy'}
-    decoding="async"
-    draggable="false"
-  />
-);
+const Img = ({ src, srcSet, alt, eager, sizes }) => {
+  // Most comparisons use the generated WebP pair. A supplied screenshot can
+  // retain its own extension without pretending a responsive derivative exists.
+  const isCompleteSource = /\.[a-z0-9]+(?:[?#].*)?$/i.test(src);
+  const imageSrc = isCompleteSource ? src : `${src}.webp`;
+
+  return (
+    <img
+      src={imageSrc}
+      srcSet={srcSet || (isCompleteSource ? undefined : `${src}-768.webp 768w, ${src}.webp 1280w`)}
+      sizes={sizes}
+      alt={alt}
+      width="1280"
+      height="720"
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+      draggable="false"
+    />
+  );
+};
 
 /**
  * Before / after comparison. The before shot is clipped from the left; Chip is
@@ -34,6 +41,7 @@ export default function BeforeAfter({ before, after, label, url, eager = false, 
   const [touched, setTouched] = useState(false);
   const stopT = useRef(0);
   const demo = useRef(0);
+  const touchStartValue = useRef(null);
 
   const place = (v, dir) => {
     const next = Math.max(0, Math.min(100, v));
@@ -54,7 +62,7 @@ export default function BeforeAfter({ before, after, label, url, eager = false, 
   // A one-time demo wipe when the comparison first comes into view.
   useEffect(() => {
     const el = ref.current;
-    if (!el || reduced() || !('IntersectionObserver' in window)) return undefined;
+    if (!el || touched || reduced() || !('IntersectionObserver' in window)) return undefined;
     const io = new IntersectionObserver(
       ([e]) => {
         if (!e.isIntersecting) return;
@@ -78,7 +86,7 @@ export default function BeforeAfter({ before, after, label, url, eager = false, 
     );
     io.observe(el);
     return () => { io.disconnect(); cancelAnimationFrame(demo.current); };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [start, touched]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const grab = () => {
     cancelAnimationFrame(demo.current);
@@ -117,7 +125,19 @@ export default function BeforeAfter({ before, after, label, url, eager = false, 
           defaultValue={start}
           aria-label={`${label}: before and after. Higher values show more of the old site.`}
           aria-valuetext={`${start}% old site, ${100 - start}% redesign`}
-          onPointerDown={grab}
+          onPointerDown={(event) => {
+            if (event.isPrimary && event.pointerType === 'touch') touchStartValue.current = posRef.current;
+            grab();
+          }}
+          onPointerUp={(event) => { if (event.isPrimary) touchStartValue.current = null; }}
+          onPointerCancel={(event) => {
+            // A native range can jump on contact before the browser claims a
+            // vertical scroll or pinch. Keep the visitor's previous split.
+            if (event.isPrimary && touchStartValue.current !== null) {
+              place(touchStartValue.current, null);
+              touchStartValue.current = null;
+            }
+          }}
           onKeyDown={grab}
           onInput={(e) => place(Number(e.target.value))}
         />

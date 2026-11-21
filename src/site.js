@@ -1,21 +1,27 @@
 // Contact details and URLs live here only. To move to a dedicated studio inbox, change EMAIL.
-export const SITE_URL = 'https://www.tinychipstudio.com/';
-export const EMAIL = 'tinychipstudio@gmail.com';
+import { pricing, money } from './offers.js';
+export const SITE_URL = 'https://tinychipstudio.com/';
+export const EMAIL = 'adam@tinychipstudio.com';
 export const PHONE_DISPLAY = '419-341-8519';
 export const PHONE_TEL = '+14193418519';
 export const LOCATION = 'Tiffin, Ohio';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/adamthomasjanes/';
 export const BEHANCE_URL = 'https://www.behance.net/adaminprint';
-export const PORTFOLIO_URL = 'https://adamthomasjanes.com/';
-// The scorecard and the call booking now live inside this site (sheets opened by these hashes).
+export const FACEBOOK_URL = 'https://www.facebook.com/tinychipstudio';
+export const INSTAGRAM_URL = 'https://www.instagram.com/tinychipstudio/';
+export const NEXTDOOR_URL = 'https://nextdoor.com/page/tiny-chip-studio-tiffin-oh/';
+// The scorecard lives inside this site (a sheet opened by this hash).
 export const SCORECARD_URL = '#scorecard';
+// Fallback call-request sheet, used only when BOOKING_URL is empty (and for old #book-call links).
 export const BOOK_URL = '#book-call';
-// Paste a Calendly / Google appointment-schedule / Cal.com link here and "Book a
-// 15-minute call" will send people there instead of taking a call request.
+// "Book a 15-minute call" goes straight here, in a new tab, with UTM tags for the
+// button that was used (src/lib/booking.js). The Calendly event really is 15
+// minutes; only its address says /30min. Also update the /book redirect in
+// netlify.toml if this changes. Empty it to fall back to the call-request sheet.
 export const BOOKING_URL = 'https://calendly.com/adamthomasjanes/30min';
 
 // Shown in the hero, services and FAQ.
-export const STARTING_PRICE = '$1,200';
+export const STARTING_PRICE = money(pricing.build); // Build & Own starting price.
 export const REGION = 'Northwest Ohio';
 
 // The people. Add a photo (square, ~720px, in public/assets/team/) and the card

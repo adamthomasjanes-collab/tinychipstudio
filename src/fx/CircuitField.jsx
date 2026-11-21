@@ -106,8 +106,33 @@ function compile(gl, type, src) {
 export default function CircuitField({ chipRef }) {
   const canvasRef = useRef(null);
 
+  // The board is decoration, so it waits until the page has loaded and the
+  // browser is idle: compiling a shader shouldn't compete with the headline,
+  // the buttons or hydration on a slow phone.
   useEffect(() => {
-    const canvas = canvasRef.current;
+    let cleanup = () => {};
+    let idleId = 0;
+    let timer = 0;
+    const begin = () => {
+      const run = () => { cleanup = startBoard(canvasRef.current, chipRef) || cleanup; };
+      if ('requestIdleCallback' in window) idleId = window.requestIdleCallback(run, { timeout: 2500 });
+      else timer = setTimeout(run, 300);
+    };
+    if (document.readyState === 'complete') begin();
+    else window.addEventListener('load', begin, { once: true });
+    return () => {
+      window.removeEventListener('load', begin);
+      if (idleId) window.cancelIdleCallback?.(idleId);
+      clearTimeout(timer);
+      cleanup();
+    };
+  }, [chipRef]);
+
+  return <canvas ref={canvasRef} className="circuit-field" aria-hidden="true" />;
+}
+
+function startBoard(canvas, chipRef) {
+  {
     const host = canvas?.parentElement;
     if (!canvas || !host) return undefined;
 
@@ -228,7 +253,5 @@ export default function CircuitField({ chipRef }) {
       window.removeEventListener('pointermove', onMove);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, [chipRef]);
-
-  return <canvas ref={canvasRef} className="circuit-field" aria-hidden="true" />;
+  }
 }

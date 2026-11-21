@@ -1,0 +1,29 @@
+/* Tiny Chip Studio "Website by" badge — v2 (2026-10-31)
+Readable by default: the smallest line ("Website by") is 14px. Size and colour are
+two custom properties on any parent (or on the badge itself):
+  --tcs-size   default 18px (the whole badge scales from this; keep ≥ 18px for the 14px floor)
+  --tcs-color  default: the surrounding text colour. Set it to the footer's main text
+               colour, not a muted grey, because the badge lightens itself slightly.
+
+   React: import TcsBadge from './TcsBadge.jsx'  then  <TcsBadge />
+   Optional: <TcsBadge style={{ '--tcs-size': '20px', '--tcs-color': '#f4f1e8' }} />
+   The CSS is injected once; if you'd rather keep it in your stylesheet, paste
+   tcs-badge.css there and delete the useInsertionEffect line. */
+import { useInsertionEffect } from 'react'
+
+const CSS = ".tcs-badge{position:relative;display:inline-flex;align-items:center;gap:.55em;color:var(--tcs-color,currentColor);font:inherit;font-size:var(--tcs-size,18px);line-height:1.15;text-decoration:none;opacity:.85;transition:opacity .2s}\n.tcs-badge:hover,.tcs-badge:focus-visible{opacity:1}\n.tcs-badge:focus-visible{outline:2px solid currentColor;outline-offset:4px}\n.tcs-badge .tcs-chip{width:1.667em;height:1.667em;flex:none;overflow:visible}\n.tcs-badge .tcs-text{display:flex;flex-direction:column}\n.tcs-badge small{font-size:.78em;letter-spacing:.08em;text-transform:uppercase;opacity:.8}\n.tcs-badge b{font-weight:700;letter-spacing:.01em}\n.tcs-badge .tcs-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}\n.tcs-badge .tcs-shut,.tcs-badge .tcs-wave{opacity:0}\n@media (prefers-reduced-motion:no-preference){\n.tcs-badge .tcs-open{animation:tcs-o 5.2s steps(1,end) infinite}\n.tcs-badge .tcs-shut{animation:tcs-s 5.2s steps(1,end) infinite}\n.tcs-badge .tcs-fig{animation:tcs-hop 9s steps(1,end) infinite}\n.tcs-badge:hover .tcs-wave,.tcs-badge:focus-visible .tcs-wave{animation:tcs-w .5s steps(1,end) infinite}\n}\n@keyframes tcs-o{0%,100%{opacity:1}94%{opacity:0}97%{opacity:1}}\n@keyframes tcs-s{0%,100%{opacity:0}94%{opacity:1}97%{opacity:0}}\n@keyframes tcs-hop{0%,100%{transform:none}90%{transform:translateY(-1px)}92%{transform:translateY(-2px)}94%{transform:translateY(-1px)}96%{transform:none}}\n@keyframes tcs-w{0%{opacity:1}50%{opacity:0}}"
+
+function useBadgeCss() {
+  useInsertionEffect(() => {
+    if (document.getElementById('tcs-badge-css')) return
+    const el = document.createElement('style'); el.id = 'tcs-badge-css'; el.textContent = CSS
+    document.head.appendChild(el)
+  }, [])
+}
+
+export default function TcsBadge({ className = '', style }) {
+  useBadgeCss()
+  return (
+    <a className={className ? `tcs-badge ${className}` : 'tcs-badge'} style={style} href="https://www.tinychipstudio.com/" target="_blank" rel="noopener"><svg className="tcs-chip" viewBox="0 0 16 16" width="24" height="24" shapeRendering="crispEdges" aria-hidden="true" focusable="false"><g className="tcs-fig"><g><path fill="currentColor" d="M6 13h1v1h-1zM9 13h1v1h-1zM6 14h1v1h-1zM9 14h1v1h-1zM5 15h1v1h-1zM10 15h1v1h-1z"/></g><g><path fill="currentColor" d="M4 1h1v1h-1zM6 1h1v1h-1zM9 1h1v1h-1zM11 1h1v1h-1zM4 2h1v1h-1zM6 2h1v1h-1zM9 2h1v1h-1zM11 2h1v1h-1zM1 4h2v1h-2zM13 4h2v1h-2zM1 6h2v1h-2zM13 6h2v1h-2zM1 9h2v1h-2zM13 9h2v1h-2zM1 11h2v1h-2zM13 11h2v1h-2zM4 13h1v1h-1zM11 13h1v1h-1zM4 14h1v1h-1zM11 14h1v1h-1z"/><path fill="currentColor" d="M4 3h9v1h-9zM3 4h2v1h-2zM12 4h1v1h-1zM3 5h1v1h-1zM12 5h1v1h-1zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h1v1h-1zM12 8h1v1h-1zM3 9h1v1h-1zM12 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM3 12h10v1h-10z"/><path fill="#ffffff" d="M5 4h6v1h-6z"/><path fill="#fffdf6" d="M11 4h1v1h-1zM4 5h1v1h-1zM6 5h5v1h-5zM4 6h7v1h-7zM4 7h7v1h-7zM4 8h7v1h-7zM4 9h7v1h-7zM4 10h7v1h-7z"/><path fill="#c7ff58" d="M5 5h1v1h-1z"/><path fill="#e6e0cf" d="M11 5h1v1h-1zM11 6h1v1h-1zM11 7h1v1h-1zM11 8h1v1h-1zM11 9h1v1h-1zM11 10h1v1h-1zM4 11h8v1h-8z"/></g><g className="tcs-wave"><path fill="currentColor" d="M15 3h1v1h-1zM15 4h1v1h-1zM15 5h1v1h-1zM13 6h3v1h-3z"/></g><g className="tcs-open"><path fill="#0b0d11" d="M6 6h1v1h-1zM9 6h1v1h-1zM6 7h1v1h-1zM9 7h1v1h-1zM9 9h1v1h-1zM6 10h3v1h-3z"/><path fill="#ff69bd" d="M5 9h1v1h-1zM10 9h1v1h-1z"/></g><g className="tcs-shut"><path fill="#0b0d11" d="M6 7h1v1h-1zM9 7h1v1h-1zM9 9h1v1h-1zM6 10h3v1h-3z"/><path fill="#ff69bd" d="M5 9h1v1h-1zM10 9h1v1h-1z"/></g></g></svg><span className="tcs-text"><small>Website by</small><b>tinychipstudio.com</b></span><span className="tcs-sr"> (opens in a new tab)</span></a>
+  )
+}

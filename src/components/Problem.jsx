@@ -12,7 +12,7 @@ export default function Problem() {
         <span>NOTICE: FORGETTABLE WEBSITES MAY BE REDESIGNED HERE</span>
       </div>
 
-      <section className="problem section-pad on-dark" aria-labelledby="problem-title" data-guide="problem">
+      <section id="problem" className="problem section-pad on-dark" aria-labelledby="problem-title" data-guide="problem">
         <div className="section-top">
           <p className="section-tag">[ 01 / THE PROBLEM ]</p>
           <span>IT’S NOT YOU. IT’S THE WEBSITE.</span>
@@ -23,14 +23,14 @@ export default function Problem() {
           <em>QUIET WEBSITE.</em>
         </h2>
         <p className="problem-intro">
-          {tidy('You do good work, but your website doesn’t say so fast enough. Visitors don’t wait around to find out.')}
+          {tidy('Your website should do your work justice.')}
         </p>
 
         <ol className="problem-grid">
           {problems.map((p, i) => (
             <li className="problem-card reveal" key={p.tag} style={{ '--i': i }}>
               <span className="problem-tag">
-                /0{i + 1} {p.tag}
+                0{i + 1} / {p.tag}
               </span>
               <h3>{p.title}</h3>
               <p>{tidy(p.body)}</p>
@@ -45,7 +45,7 @@ export default function Problem() {
           </p>
           <p className="problem-belief-sub">
             {tidy(
-              'When people have to piece your story together, they move on. We start with your customer, clarify the message, then design a distinctive experience with a clear next step.',
+              'We clarify your message and make the next step obvious.',
             )}
           </p>
         </div>

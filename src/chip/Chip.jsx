@@ -22,8 +22,7 @@ import { finePointer, reducedMotion, watchPointer } from './pointer';
  *  title   accessible name; without it Chip is decorative
  */
 
-const R = ({ runs }) =>
-  runs.map((r, i) => <rect key={i} x={r.x} y={r.y} width={r.w} height={1} fill={S.COLORS[r.c]} />);
+const R = ({ runs }) => S.runsToPaths(runs).map(({ c, d }) => <path key={c} d={d} fill={S.COLORS[c]} />);
 
 const L = (runs, className) => (
   <g className={className}>

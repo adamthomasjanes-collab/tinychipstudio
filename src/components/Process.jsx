@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chip from '../chip/Chip';
 import CrewMember from '../guide/CrewMember';
-import { promises, steps } from '../data';
+import { ownership, steps } from '../data';
 import { tidy } from '../lib/typography';
 
 /**
@@ -48,22 +48,22 @@ function useWalk(trackRef, walkerRef) {
   return walk;
 }
 
-/** The plan (three steps) and the agreement (what a client can count on). */
+/** The plan (three steps), the agreement (what a client can count on), and who does the work. */
 export default function Process() {
   const trackRef = useRef(null);
   const walkerRef = useRef(null);
   const walk = useWalk(trackRef, walkerRef);
   return (
     <>
-      <section id="process" className="process section-pad" data-guide="plan">
+      <section id="process" className="process section-pad" data-guide="plan" aria-labelledby="process-title">
         <div className="section-top">
-          <p className="section-tag">[ 04 / THE PLAN ]</p>
+          <p className="section-tag">[ 07 / HOW IT WORKS ]</p>
           <span>A CLEAR PATH FORWARD.</span>
         </div>
-        <h2 className="display-head reveal">
+        <h2 id="process-title" className="display-head reveal">
           THREE STEPS.
           <br />
-          <em>NO MYSTERY HANDOFF.</em>
+          <em>A CLEAR WAY FORWARD.</em>
         </h2>
 
         <div className="process-track" aria-hidden="true" ref={trackRef}>
@@ -82,32 +82,33 @@ export default function Process() {
           ))}
         </ol>
 
-        <div className="promise">
-          <p className="section-tag">THE AGREEMENT / WHAT YOU CAN COUNT ON</p>
-          <ul className="promise-grid">
-            {promises.map((p) => (
-              <li key={p.title}>
-                <h3>{p.title}</h3>
-                <p>{tidy(p.body)}</p>
-              </li>
-            ))}
-          </ul>
-          <a href="#contact" className="button button-lime">
-            START WITH STEP ONE <span aria-hidden="true">↗</span>
-          </a>
+        <div className="promise ownership" aria-labelledby="ownership-title">
+          <p className="section-tag">THE AGREEMENT / WE DON’T HOLD WEBSITES HOSTAGE.</p>
+          <div className="ownership-layout">
+            <h3 id="ownership-title" className="ownership-title">
+              {ownership.headline.map((line, i) => (
+                <React.Fragment key={line}>
+                  {i > 0 && ' '}
+                  <span>{line}</span>
+                </React.Fragment>
+              ))}
+            </h3>
+            <div className="ownership-copy">
+              <p className="ownership-lead">{tidy(ownership.lead)}</p>
+              {ownership.body.map((paragraph) => <p key={paragraph}>{tidy(paragraph)}</p>)}
+            </div>
+          </div>
+          <div className="ownership-footer">
+            <p>{tidy(ownership.belief)}</p>
+            <a href="#contact" className="button button-lime">
+              START WITH STEP ONE <span aria-hidden="true">↗</span>
+            </a>
+          </div>
           <CrewMember crew="boot" pose="sleep" peek="up" className="crew-on-promise" />
         </div>
+
       </section>
 
-      <div className="big-idea-break" aria-hidden="true">
-        <span>✳</span>
-        <strong>
-          BUILT TO
-          <br />
-          BE USED.
-        </strong>
-        <span>✳</span>
-      </div>
     </>
   );
 }

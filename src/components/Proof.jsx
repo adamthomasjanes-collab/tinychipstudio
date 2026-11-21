@@ -20,7 +20,7 @@ export default function Proof() {
         </h2>
         <p>
           {tidy(
-            'Most websites aren’t failing because of bad design. They’re failing because a stranger can’t quickly answer two questions: what do you do, and why should they trust you? That’s the problem we solve.',
+            'Clear thinking, real work and clients who are happy to share it.',
           )}
         </p>
       </div>

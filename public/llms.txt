@@ -1,13 +1,17 @@
 # Tiny Chip Studio
 
-> Tiny Chip Studio is a website design and development studio in Tiffin, Ohio, founded by Adam Thomas Janes. We plan, design and build websites for Northwest Ohio businesses (and clients anywhere by phone and video) that say what the business does plainly, earn trust fast, and make contacting them the easy next step. Websites start at $1,200 with a fixed quote before paid work begins.
+> Website design and business growth in Tiffin, Ohio. Attract attention, make contact easier, and understand what follows. Your website. Your business. Your call.
+
+Websites from $197/month. Website + Growth $297/month. $0 upfront builds for qualifying projects with a 12-month initial agreement. Build & Own from $1,200 with no required care plan.
 
 ## Services
 
-- Design & build a website: strategy, custom design and responsive development, from the first content decisions through testing and handoff. WordPress or a custom frontend, chosen for the job. From $1,200, fixed quote.
-- Improve an existing website: targeted redesign, clearer content, easier navigation and technical refinement. Fixed quote after a 15-minute call.
-- Website review: a scoped review of message, navigation and customer journey with written, prioritized recommendations. Scope and fee agreed before work begins.
-- Free website scorecard: fifteen questions, about two minutes, results shown immediately with no email required: https://www.tinychipstudio.com/#scorecard
+- Website + Growth: $297/month. 12-MONTH INITIAL AGREEMENT. Your website and ongoing care, plus a system for keeping inquiries organized, following up and seeing which opportunities turn into business. $0 upfront build fee for qualifying projects with a 12-month initial agreement. $3,564 total first-year payments. We set up your inquiry and follow-up system around your business. We agree on the features, usage limits and launch timeline before work begins, then configure and test your workflows during onboarding.
+- Website + Care: $197/month. 12-MONTH INITIAL AGREEMENT. Get a website you’re proud to share, with someone handling the hosting, upkeep and small updates. $0 upfront build fee for qualifying projects. $2,364 total first-year payments.
+- Build & Own: From $1,200. ONE TIME · NO REQUIRED CARE PLAN. A distinctive website purchased outright. Agreed custom deliverables transfer after full payment, subject to third-party licenses. Choose your hosting and future provider. No mandatory care subscription. Hosting and domain costs are separate; growth services can be scoped separately when appropriate.
+- Website Care: From $99/month. FOR QUALIFYING EXISTING SITES. Technical care and minor updates after a review of your site, platform and access. WordPress hosting is outside our current active scope. No new website build, full CRM setup, advanced automation, campaign management or complete Growth reporting package. Scope and costs are agreed separately.
+
+We agree on the project scope, support, ownership and any third-party costs in writing before work starts. Monthly plans also spell out early-exit arrangements, offboarding and your options after the initial year. Domains and third-party subscriptions may cost extra.
 
 ## How a project works
 
@@ -21,11 +25,12 @@ A typical website takes about a week of build time once content and approvals ar
 
 Every project is labeled honestly as live, commissioned, approved or concept.
 
+- Chief DJ (live client website): https://chiefdjrocks.com/
 - J&T Auto Service (live client website): https://jtautobg.com/
 - AM's Mystical Treasures (live client website): https://amsmysticaltreasuresllc.com/
 - Camp Perry Lodging & Conference Center (commissioned via InGenesis, 2018–2020, now managed by the client): https://cplcc.com/
 - Crush Wine Bar, Sandusky, Ohio (design sold and approved, build pending): https://adamthomasjanes.com/crush/
-- Pioneer Mill, Tiffin, Ohio (redesign concept, not commissioned): https://pioneermill.adamthomasjanes.com/
+- Pioneer Mill, Tiffin, Ohio (independent website prototype, not commissioned): https://adamthomasjanes.com/concept/prototype/
 - AquaBlast, Marblehead, Ohio (redesign concept, not commissioned): https://adamthomasjanes.com/aquablast/
 - DeBacco Mancinetti, Port Clinton, Ohio (redesign concept, not commissioned): https://adamthomasjanes.com/debacco-mancinetti/
 - Joshua Janes, illustrator (independent concept, built and live as a demo): https://adamthomasjanes.com/joshuajanes/
@@ -38,7 +43,7 @@ Every project is labeled honestly as live, commissioned, approved or concept.
 ## Contact
 
 - Website: https://www.tinychipstudio.com/
-- Email: tinychipstudio@gmail.com
+- Email: adam@tinychipstudio.com
 - Phone: 419-341-8519
 - Location: Tiffin, Ohio, serving Northwest Ohio (Toledo, Findlay, Fremont, Sandusky, Bowling Green) and remote clients anywhere in the United States.
 

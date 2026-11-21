@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 
 const EXIT_MS = 610; // matches .case-sheet's exit transition
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -73,7 +73,7 @@ export default function Panel({ id, sys, title, closeLabel = 'CLOSE', onClose, c
           <h2 id={`${id}-title`} className="panel-title">
             {title}
           </h2>
-          {children({ close: dismiss })}
+          <Suspense fallback={<p className="panel-loading">Loading…</p>}>{children({ close: dismiss })}</Suspense>
         </div>
       </section>
     </div>

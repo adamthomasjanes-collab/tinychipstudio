@@ -49,7 +49,9 @@ const CITY_STATE_RE = /\b([A-Z][\w’'-]*), (Ohio|OH)\b/g;
 // "Seneca County", "Ottawa County"
 const COUNTY_RE = /\b([A-Z][a-z]+) (County)\b/g;
 
-const glue = (s) => s.replace(/ /g, NBSP);
+// Long names must be able to wrap on narrow screens. Keeping an entire
+// university/library name unbroken can force a column wider than the viewport.
+const glue = (s) => s.length <= 22 ? s.replace(/ /g, NBSP) : s;
 
 /** Rule 1 only: keep proper nouns together. Safe on labels, names and headings. */
 export function names(text) {
@@ -69,9 +71,10 @@ export function tidy(text) {
     .map((sentence) => {
       const words = sentence.split(' ');
       if (words.length < 2) return sentence;
-      if (words.length <= 3) return words.join(NBSP);
-      const head = words.slice(0, 2).join(NBSP);
-      const tail = words.slice(-2).join(NBSP);
+      const pair = (parts) => parts.join(' ').length <= 22 && !parts.some(w => w.includes(NBSP)) ? parts.join(NBSP) : parts.join(' ');
+      if (words.length <= 3) return pair(words);
+      const head = pair(words.slice(0, 2));
+      const tail = pair(words.slice(-2));
       return `${head} ${words.slice(2, -2).join(' ')} ${tail}`.replace(/ {2,}/g, ' ');
     })
     .join(' ');

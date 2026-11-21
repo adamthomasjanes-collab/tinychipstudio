@@ -11,6 +11,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { tidy, names } from '../src/lib/nbsp.js';
 import { AREAS } from '../src/areas.js';
+import { offerFaq, offerCatalog, offers, monthlyOffers, own, maintenance, disclosure, firstYear, heroTeaser, heroDisclosure, offerSummary } from '../src/offers.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://tinychipstudio.com';
@@ -25,7 +26,7 @@ const WORK = {
     name: 'Pioneer Mill', place: 'Tiffin', img: W + 'pioneer-hero.webp', kind: 'concept',
     status: 'Redesign concept · not commissioned',
     line: 'Sell the evening, not the entrée.',
-    url: 'https://pioneermill.adamthomasjanes.com/', label: 'Explore the concept',
+    url: 'https://adamthomasjanes.com/concept/prototype/', label: 'Explore the concept',
     alt: 'Pioneer Mill destination-dining website concept',
   },
   crush: {
@@ -76,7 +77,7 @@ const WORK = {
 
 const COST_FAQ = {
   q: 'What does a website cost?',
-  a: 'Most small-business websites start at $1,200. After a short call we send a fixed quote in writing, so you know the cost, scope and timing before any paid work starts. No hourly meter.',
+  a: `${disclosure} ${firstYear} ${own.name} starts at ${own.price.toLowerCase()} one time with no required care plan. We agree scope, timing and terms in writing before work begins.`,
 };
 
 const CITIES = [
@@ -87,7 +88,7 @@ const CITIES = [
     distance: 'Home base',
     title: 'Web Design in Tiffin, Ohio | Tiny Chip Studio',
     description:
-      'Web design from a studio that’s actually in Tiffin. Tiny Chip Studio builds clear, fast websites for Tiffin and Seneca County businesses. Fixed quotes from $1,200.',
+      'Web design from a studio that’s actually in Tiffin. Tiny Chip Studio builds clear, fast websites for Tiffin and Seneca County businesses. Monthly packages and outright purchases.',
     subhead: 'The studio is here in Tiffin, so the first meeting can happen across a table instead of across a video call.',
     intro: [
       'Tiffin runs on word of mouth. Somebody’s cousin recommends you, then they look you up. What they find in the next ten seconds decides whether they call.',
@@ -113,7 +114,7 @@ const CITIES = [
     distance: 'Under an hour from the studio',
     title: 'Web Design in Port Clinton, Ohio | Tiny Chip Studio',
     description:
-      'Web design for Port Clinton and Ottawa County: marinas, charters, rentals, restaurants and the trades that keep the lakeshore running. Fixed quotes from $1,200.',
+      'Web design for Port Clinton and Ottawa County: marinas, charters, rentals, restaurants and the trades that keep the lakeshore running. Monthly packages and outright purchases.',
     subhead: 'The season is short. Your website should be ready before the first ferry runs.',
     intro: [
       'Port Clinton businesses make most of their year in a few busy months, and visitors decide from a phone, usually from a hotel room or a dock. If they can’t find your hours, your rates or how to book, they book the next place down the shore.',
@@ -145,7 +146,7 @@ const CITIES = [
     distance: 'Under an hour from the studio',
     title: 'Web Design in Sandusky, Ohio | Tiny Chip Studio',
     description:
-      'Web design for Sandusky and Erie County businesses that serve both locals and visitors. Clear, fast websites from Tiny Chip Studio. Fixed quotes from $1,200.',
+      'Web design for Sandusky and Erie County businesses that serve both locals and visitors. Clear, fast websites from Tiny Chip Studio. Monthly packages and outright purchases.',
     subhead: 'Plenty of people pass through Sandusky every summer. Your website is how the ones who’ve never heard of you decide to stop.',
     intro: [
       'Sandusky businesses serve two crowds: locals who’ve known you for years and visitors who found you ten minutes ago. Both are looking at a phone. One wants your hours. The other wants a reason to pick you over the place next door.',
@@ -171,7 +172,7 @@ const CITIES = [
     distance: 'Under an hour from the studio',
     title: 'Web Design in Bowling Green, Ohio | Tiny Chip Studio',
     description:
-      'Web design for Bowling Green and Wood County businesses that serve longtime locals and BGSU students. Fixed quotes from $1,200, from Tiny Chip Studio.',
+      'Web design for Bowling Green and Wood County businesses that serve longtime locals and BGSU students. Monthly packages and outright purchases from Tiny Chip Studio.',
     subhead: 'A college town has two audiences. Your website has to talk to both.',
     intro: [
       'Bowling Green businesses serve families who’ve been here for generations and a new wave of Bowling Green State University students every August. The students search on their phones and don’t know where anything is yet. The locals already know you and just want your hours.',
@@ -204,10 +205,10 @@ const CITIES = [
     distance: 'About an hour from the studio',
     title: 'Web Design for Toledo, Ohio Businesses | Tiny Chip Studio',
     description:
-      'A small web design studio for Toledo and Lucas County businesses: talk directly to the person building your site, with one fixed quote from $1,200.',
+      'A small web design studio for Toledo and Lucas County businesses: talk directly to the person building your site, with a choice of monthly care or outright purchase.',
     subhead: 'A small studio for Toledo businesses that want the person they hire to be the person doing the work.',
     intro: [
-      'Toledo has plenty of agencies, and some of them are great. If you’d rather talk directly to the person designing and building your site, with one fixed price and no account manager in the middle, that’s how we work.',
+      'Toledo has plenty of agencies, and some of them are great. If you’d rather talk directly to the person designing and building your site, with a clear scope and a choice of payment arrangements and no account manager in the middle, that’s how we work.',
       'Tiny Chip Studio builds websites for Toledo and Lucas County businesses: service companies, shops, restaurants and professional practices. A clear message, fast on a phone, and a next step people can see.',
     ],
     audiences: [
@@ -230,7 +231,7 @@ const CITIES = [
     distance: 'Under an hour from the studio',
     title: 'Web Design in Findlay, Ohio | Tiny Chip Studio',
     description:
-      'Web design for Findlay and Hancock County businesses, from industrial services to downtown shops. Clear, fast websites with fixed quotes from $1,200.',
+      'Web design for Findlay and Hancock County businesses, from industrial services to downtown shops. Clear, fast websites with monthly care or outright purchase.',
     subhead: 'Findlay customers find you the way everyone does now: a search, a phone and about ten seconds.',
     intro: [
       'Findlay has a busy mix of manufacturing, industrial services, downtown shops, restaurants and the University of Findlay. Whatever your customers come for, they’re deciding on a phone screen whether you look like the right call.',
@@ -256,7 +257,7 @@ const CITIES = [
     distance: 'About half an hour from the studio',
     title: 'Web Design in Fremont, Ohio | Tiny Chip Studio',
     description:
-      'Web design for Fremont and Sandusky County businesses from a studio half an hour away in Tiffin. Clear, fast websites with fixed quotes from $1,200.',
+      'Web design for Fremont and Sandusky County businesses from a studio half an hour away in Tiffin. Clear, fast websites with monthly care or outright purchase.',
     subhead: 'Fremont is close enough that we can see your business in person before we design a thing.',
     intro: [
       'Fremont businesses depend on neighbors and on people passing through on the way to the lake. Both look you up before they stop. A site that’s clear and quick on a phone turns that search into a visit.',
@@ -270,7 +271,7 @@ const CITIES = [
     work: ['pioneer-mill', 'crush', 'jt-auto'],
     faq: [
       { q: 'Can you come see our business before designing?', a: 'Yes. Fremont is about half an hour from the studio in Tiffin, and seeing the place helps us describe it honestly.' },
-      { q: 'We’re a small business. Is $1,200 a real starting price?', a: 'Yes. It covers a focused small-business website. More pages or a more custom build costs more, and you’ll see the fixed number before anything starts.' },
+      { q: `We’re a small business. Is ${own.price.toLowerCase()} a real starting price?`, a: 'Yes. It covers a focused small-business website. More pages or a more custom build costs more, and you’ll see the fixed number before anything starts.' },
       COST_FAQ,
     ],
     nearby: ['tiffin', 'sandusky', 'port-clinton', 'toledo'],
@@ -359,7 +360,7 @@ function page(c) {
         logo: `${SITE}/brand/app-icon.svg`,
         image: `${SITE}/og-image.png`,
         telephone: TEL,
-        email: 'tinychipstudio@gmail.com',
+        email: 'adam@tinychipstudio.com',
         address: { '@type': 'PostalAddress', addressLocality: 'Tiffin', addressRegion: 'OH', postalCode: '44883', addressCountry: 'US' },
         areaServed: [
           { '@type': 'City', name: c.name, containedInPlace: { '@type': 'AdministrativeArea', name: `${c.county}, Ohio` } },
@@ -367,12 +368,13 @@ function page(c) {
           ...others.map((o) => ({ '@type': 'City', name: o.name, containedInPlace: { '@type': 'State', name: 'Ohio' } })),
         ],
         founder: { '@type': 'Person', '@id': 'https://adamthomasjanes.com/#adam', name: 'Adam Thomas Janes' },
-        priceRange: '$1,200 – $5,000',
+        priceRange: offerSummary,
+        hasOfferCatalog: offerCatalog,
       },
       {
         '@type': 'FAQPage',
         '@id': `${url}#faq`,
-        mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+        mainEntity: [...c.faq, ...offerFaq].map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
       },
     ],
   };
@@ -387,7 +389,7 @@ function page(c) {
     <meta name="robots" content="index,follow,max-image-preview:large" />
 
     <title>${esc(c.title)}</title>
-    <meta name="description" content="${esc(c.description)}" />
+    <meta name="description" content="${esc(`${c.description} ${offerSummary}`)}" />
     <link rel="canonical" href="${url}" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
@@ -397,7 +399,7 @@ function page(c) {
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Tiny Chip Studio" />
     <meta property="og:title" content="${esc(c.title)}" />
-    <meta property="og:description" content="${esc(c.description)}" />
+    <meta property="og:description" content="${esc(`${c.description} ${offerSummary}`)}" />
     <meta property="og:url" content="${url}" />
     <meta property="og:image" content="${SITE}/og-image.png" />
     <meta property="og:image:width" content="1200" />
@@ -405,7 +407,7 @@ function page(c) {
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${esc(c.title)}" />
-    <meta name="twitter:description" content="${esc(c.description)}" />
+    <meta name="twitter:description" content="${esc(`${c.description} ${offerSummary}`)}" />
     <meta name="twitter:image" content="${SITE}/og-image.png" />
 
     <link rel="preload" href="/assets/fonts/barlow-condensed-bold.woff2" as="font" type="font/woff2" crossorigin />
@@ -551,6 +553,17 @@ ${json(ld)}
         .nav-phone { display: none; }
         .btn { width: 100%; text-align: center; }
       }
+      .tag, .status, .work .place, .card .price, .work-note, .foot, .btn-sm, .go, .card p, .step p { font-size: max(14px, .88rem); }
+      .proof-meta { font-size: 14px !important; }
+      .hero-card span { font-size: 14px; }
+      .hero > div { min-width: 0; }
+      .offer-disclosure { max-width: 44em; line-height: 1.6; font-weight: 700; border-left: 3px solid var(--lime); padding-left: 16px; }
+      .nav { flex-wrap: wrap; }
+      .offer-cards { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .card--featured { border:2px solid var(--lime); background:#151b20; }
+      .review-notice { padding:24px; border-left:3px solid var(--lime); font-size:16px; }
+      .alternatives article { padding:24px 0; border-bottom:1px solid var(--line); }
+      @media (max-width: 900px) { .cards, .work { grid-template-columns: minmax(0,1fr); } }
       @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
     </style>
   </head>
@@ -560,7 +573,7 @@ ${json(ld)}
       <a href="/" class="logo" aria-label="Tiny Chip Studio home"><img src="/brand/logo-line-on-dark.svg" alt="Tiny Chip Studio" width="155" height="22" /></a>
       <div class="nav-right">
         <a class="nav-phone" href="tel:${TEL}">${PHONE}</a>
-        <a href="/#contact" class="btn btn-lime btn-sm">Get a fixed quote</a>
+        <a href="/#contact" class="btn btn-lime btn-sm">Let’s talk</a>
       </div>
     </header>
 
@@ -568,11 +581,12 @@ ${json(ld)}
       <section class="hero wrap">
         <div>
           <p class="tag">[ Web design / ${n(`${c.name}, Ohio`)} ]</p>
-          <h1>Web design in <em>${n(`${c.name}, Ohio`)}</em></h1>
+          <h1>Web design in <em>${esc(c.name)}, Ohio</em></h1>
           <p class="subhead">${t(c.subhead)}</p>
+          <p class="offer-disclosure">${t(heroTeaser)} ${t(heroDisclosure)} ${t(firstYear)}</p>
           <div class="cta-row">
             <a href="/#contact" class="btn btn-lime">Start a project ↗</a>
-            <a href="/#scorecard" class="btn btn-ghost">Free website scorecard</a>
+            <a href="/#website-options" class="btn btn-ghost">Compare website options</a>
           </div>
         </div>
         <aside class="hero-card" aria-label="Where we are">
@@ -628,25 +642,13 @@ ${work
 
       <section class="block wrap" aria-labelledby="services">
         <p class="tag">[ 03 / What we do ]</p>
-        <h2 id="services">Three ways <em>to start.</em></h2>
-        <div class="cards">
-          <div class="card">
-            <h3>New website</h3>
-            <p>${t('Strategy, custom design and responsive development, from the first content decision through launch. WordPress or a custom build, chosen for the job.')}</p>
-            <span class="price">From $1,200 · fixed quote</span>
-          </div>
-          <div class="card">
-            <h3>Website improvement</h3>
-            <p>${t('Clearer messaging, easier navigation and technical fixes for a site that already exists. We start with whatever is getting in the way.')}</p>
-            <span class="price">Fixed quote after a 15-minute call</span>
-          </div>
-          <div class="card">
-            <h3>Website review</h3>
-            <p>${t('A written, prioritized look at your message, navigation and customer journey, so you know what deserves attention first.')}</p>
-            <span class="price">Fee agreed before we start</span>
-          </div>
+        <h2 id="services">A strong start. <em>Room to grow.</em></h2>
+        <div class="cards offer-cards">
+${monthlyOffers.map(offer => `          <div class="card ${offer.id === 'website-growth' ? 'card--featured' : ''}"><h3>${esc(offer.name)}</h3><p class="price">${esc(offer.price)} · ${esc(offer.cadence)}</p><p>${t(offer.description)}</p><p>${t(offer.detail)}</p>${offer.availability ? `<p><strong>Setup for your business.</strong> ${t(offer.availability)}</p>` : ''}<a class="go" href="/#website-options">Compare options →</a></div>`).join('\n')}
         </div>
       </section>
+
+      <div class="wrap alternatives">${[own,maintenance].map(o=>`<article><h3>${esc(o.name)} · ${esc(o.price)}</h3><p>${t(o.description)} ${t(o.detail)}</p><a class="go" href="/#website-options">Explore this option →</a></article>`).join('')}</div>
 
       <section class="block wrap" aria-labelledby="how">
         <p class="tag">[ 04 / How it works ]</p>
@@ -662,7 +664,7 @@ ${work
         <p class="tag">[ 05 / Questions from ${n(c.name)} ]</p>
         <h2 id="questions">Before <em>you call.</em></h2>
         <div class="faq">
-${c.faq
+${[...c.faq, ...offerFaq]
   .map(
     (f) => `          <details>
             <summary>${n(f.q)}</summary>

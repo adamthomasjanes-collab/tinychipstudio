@@ -1,0 +1,31 @@
+name: Studio QA
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser-checks:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install chromium webkit
+      - run: npm test
+      - run: npm run qa:build
+      # Functional checks are portable; approved screenshots are compared in
+      # the documented local Windows environment, never auto-updated in CI.
+      - run: npx playwright test --grep-invert '@visual'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: studio-qa-evidence
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14

@@ -1,7 +1,11 @@
 // Runs after `vite build`. Renders <App /> to static HTML and places it inside
 // <div id="root"> in dist/index.html, so the page is readable without JavaScript
 // (search engines, AI crawlers, link previews, slow phones). src/main.jsx then
-// replaces it with the live app.
+// hydrates it: the same markup becomes the live app without being redrawn.
+//
+// It also inlines the stylesheet. The page is a single route and the CSS is
+// ~17 KB gzipped, so shipping it with the HTML saves a render-blocking round
+// trip on phones; the hashed .css file stays in dist/ for anything that links it.
 //
 // Never fails the deploy: if anything goes wrong, it logs a warning and leaves
 // the normal single-page build in place.
@@ -12,7 +16,22 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const ssrOut = join(root, '.ssr');
-const page = join(root, 'dist', 'index.html');
+const page = join(root, process.env.STUDIO_DIST || 'dist', 'index.html');
+
+/** Swap <link rel="stylesheet" href="/assets/…css"> for the stylesheet itself. */
+async function inlineStyles(html) {
+  const links = [...html.matchAll(/<link rel="stylesheet"[^>]*href="(\/assets\/[^"]+\.css)"[^>]*>/g)];
+  for (const [tag, href] of links) {
+    try {
+      const css = await readFile(join(root, process.env.STUDIO_DIST || 'dist', href), 'utf8');
+      if (css.includes('</style')) continue; // never break out of the <style> element
+      html = html.replace(tag, `<style data-inlined="${href}">${css}</style>`);
+    } catch (error) {
+      console.warn(`prerender: kept ${href} as a link (${error.message})`);
+    }
+  }
+  return html;
+}
 
 try {
   await build({
@@ -26,8 +45,10 @@ try {
 
   const html = await readFile(page, 'utf8');
   if (!html.includes('<div id="root"></div>')) throw new Error('could not find <div id="root"></div> in dist/index.html');
-  await writeFile(page, html.replace('<div id="root"></div>', `<div id="root" data-prerendered="true">${markup}</div>`));
-  console.log(`prerender: wrote ${Math.round(markup.length / 1024)} KB of static HTML into dist/index.html`);
+  let out = html.replace('<div id="root"></div>', `<div id="root" data-prerendered="true">${markup}</div>`);
+  out = await inlineStyles(out);
+  await writeFile(page, out);
+  console.log(`prerender: wrote ${Math.round(markup.length / 1024)} KB of static HTML into ${process.env.STUDIO_DIST || 'dist'}/index.html`);
 } catch (error) {
   console.warn(`prerender: skipped, the site still works as a normal single-page app. Reason: ${error?.stack || error}`);
 } finally {
