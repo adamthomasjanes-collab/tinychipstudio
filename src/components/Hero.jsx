@@ -153,14 +153,13 @@ function CrushShowcase() {
   return (
     <figure className="crush-mobile">
       <figcaption>Crush Wine Bar · Website concept</figcaption>
-      <a href={crushUrl + "menu/"} aria-label="Explore the Crush Wine Bar menu">
-        <img className="crush-capture" src="/assets/work/crush-mobile-hero.webp"
-          width="780" height="990" alt="" />
-        <span className="crush-menu-action">
-          <img src="/brand/crew-pixel.svg" width="36" height="36" alt="" />
-          <span>Explore the menu →</span>
-        </span>
-      </a>
+      <img
+        className="crush-capture"
+        src="/assets/work/crush-mobile-hero.webp"
+        width="780"
+        height="990"
+        alt="Crush Wine Bar mobile homepage featuring its storefront and sidewalk patio."
+      />
     </figure>
   );
 }
