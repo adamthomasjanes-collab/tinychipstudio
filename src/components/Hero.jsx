@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { startInquiry } from "../lib/inquiry";
 import "./browser-hero.css";
 
@@ -13,10 +13,6 @@ function BrowserDemo() {
   const screen = useRef(null);
   const drag = useRef(null);
   const phone = width === min;
-
-  useEffect(() => {
-    if (matchMedia("(max-width: 500px)").matches) setWidth(min);
-  }, []);
 
   useEffect(() => {
     const element = screen.current;
@@ -139,6 +135,36 @@ function BrowserDemo() {
   );
 }
 
+const phoneQuery = "(max-width: 640px)";
+function subscribeToPhoneLayout(callback) {
+  const query = window.matchMedia(phoneQuery);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+
+function CrushShowcase() {
+  const compact = useSyncExternalStore(
+    subscribeToPhoneLayout,
+    () => window.matchMedia(phoneQuery).matches,
+    () => true,
+  );
+  if (!compact) return <BrowserDemo />;
+
+  return (
+    <figure className="crush-mobile">
+      <figcaption>Crush Wine Bar · Website concept</figcaption>
+      <a href={crushUrl + "menu/"} aria-label="Explore the Crush Wine Bar menu">
+        <img className="crush-capture" src="/assets/work/crush-mobile-hero.webp"
+          width="780" height="990" alt="" />
+        <span className="crush-menu-action">
+          <img src="/brand/crew-pixel.svg" width="36" height="36" alt="" />
+          <span>Explore the menu →</span>
+        </span>
+      </a>
+    </figure>
+  );
+}
+
 export default function Hero() {
   return (
     <section
@@ -175,7 +201,7 @@ export default function Hero() {
           <a href="#clients">See client work ↓</a>
         </div>
       </div>
-      <BrowserDemo />
+      <CrushShowcase />
     </section>
   );
 }
