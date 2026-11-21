@@ -22,21 +22,27 @@ export default function Hero({ onOpen }) {
     <section className="hero hero--ba" id="top" data-guide="hero" aria-labelledby="hero-title">
       <CircuitField chipRef={frame} />
       <div className="hero-copy">
-        <p className="hero-kicker">Independent design studio · Tiffin, Ohio</p>
-        <h1 id="hero-title">Custom websites <span className="hero-line-three">for small businesses.</span></h1>
-        <p className="hero-sub">Give your customers a clear path from “Do they do what I need?” to “How do I book?”</p>
+        <p className="hero-kicker">Custom website design for small businesses</p>
+        <h1 id="hero-title">Your business is great. <span className="hero-line-three">Your website should prove it<span className="period">.</span></span></h1>
+        <p className="hero-sub">We build websites that help customers understand what you offer and know how to get in touch.</p>
         <div className="hero-actions">
           <a className="button button-lime" href="#contact" onClick={(event) => {
             event.preventDefault();
             startInquiry({ need: "Not sure yet", source: "hero" });
           }}>Talk about my website ↗</a>
-          <a className="text-link" href="#clients">More client work ↓</a>
+          <a className="text-link" href="#website-options">See pricing ↓</a>
         </div>
+        <aside className="hero-bug chief-notice" aria-hidden="true">
+          <span className="bug-cross">✳</span>
+          <strong>Your website is not a toaster.</strong>
+          <small>It can have a personality.</small>
+        </aside>
       </div>
       <div className="hero-ba" ref={frame}>
         <p className="hero-kicker">CHIEF DJ · Website redesign</p>
         <BeforeAfter before={before} after={after} label="CHIEF DJ" url="chiefdjrocks.com" eager
           sizes="(max-width: 900px) 94vw, 50vw" />
+        <p className="hero-ba-cap">Fans can find Steve’s next show. Event hosts can ask about a date.</p>
       </div>
       <article className="chief-story" aria-labelledby="chief-headline">
         <div>

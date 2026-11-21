@@ -23,3 +23,20 @@
 @media (max-width: 760px) {
   .chief-story { grid-template-columns: minmax(0, 1fr); }
 }
+
+.hero .chief-notice {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  width: fit-content;
+  max-width: 17rem;
+  margin: 32px 0 0 4px;
+  padding: 10px 14px;
+  rotate: -3deg;
+}
+.hero .chief-notice strong { font-size: 22px; }
+@media (max-width: 700px) {
+  #top.hero--ba { padding-top: 24px; row-gap: 24px; }
+  #top .hero-copy .hero-kicker { margin-bottom: 12px; }
+  #top .hero-sub, #top .hero-actions { margin-top: 16px; }
+}
