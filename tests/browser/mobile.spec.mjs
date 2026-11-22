@@ -28,17 +28,17 @@ test('@mobile navigation, anchors, dismissal and resized landscape',async({page}
 test('@mobile all offers, inquiry qualification, validation, draft, error, fallback and success',async({page})=>{
   await page.addInitScript(()=>{window.qaEvents=[];window.gtag=(...args)=>window.qaEvents.push(args);});
   const errors=observeErrors(page);await page.goto('/');await ready(page);
-  await expect(page.locator('#browser-title')).toContainText('Custom websites');
+  await expect(page.locator('#hero-title')).toContainText(/your website should prove it/i);
   await expect(page.locator('[data-offer=website-care]')).toContainText('$2,364');expect(total).toBe(2364);expect(growthTotal).toBe(3564);
   await expect(page.locator('[data-offer=website-growth] .option-readiness')).toHaveText('SET UP AROUND YOUR BUSINESS' + growthAvailability);
   for(const detail of await page.locator('.option-inclusions').all()) {await detail.locator('summary').click();await expect(detail).toHaveAttribute('open','');await detail.locator('summary').click();}
   await page.locator('.hero-actions a').first().click();
   await expect(page.locator('[name=need]:checked')).toHaveValue('Not sure yet');
-  await page.getByRole('button',{name:'SEND IT OVER'}).click();await expect(page.locator('#name-error')).toBeVisible();
+  await page.getByRole('button',{name:'Send my inquiry'}).click();await expect(page.locator('#name-error')).toBeVisible();
   await page.locator('#contact [name=name]').fill('Local QA');await page.locator('#contact [name=business]').fill('Synthetic test business');
   await page.locator('#contact [name=email]').fill('local@example.test');await page.locator('#contact textarea').fill('A small business website with straightforward content.');
   for(const offer of offers) {
-    await page.locator('.website-options').getByRole('link',{name:offer.cta,exact:false}).click();
+    await page.locator('.website-options').getByRole('link',{name:offer.cta,exact:true}).click();
     await expect(page.locator('[name=need]:checked')).toHaveValue(offer.name);
     await expect(page.locator('#contact [name=business]')).toHaveValue('Synthetic test business');
   }
@@ -48,13 +48,13 @@ test('@mobile all offers, inquiry qualification, validation, draft, error, fallb
     if(route.request().method()!=='POST')return route.continue();
     payload=new URLSearchParams(route.request().postData());return route.fulfill({status,body:status===200?'Accepted locally':'Unavailable'});
   });
-  await page.getByRole('button',{name:'SEND IT OVER'}).click();await expect(page.getByText('NOT SENT YET',{exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'Send my inquiry'}).click();await expect(page.getByText('NOT SENT YET',{exact:true})).toBeVisible();
   await page.getByRole('button',{name:/BACK TO YOUR MESSAGE/}).click();
   await expect(page.locator('#contact textarea')).toHaveValue('A small business website with straightforward content.');
   expect(await page.evaluate(()=>window.qaEvents.filter(e=>e[1]==='generate_lead'))).toEqual([]);
-  status=405;await page.getByRole('button',{name:'SEND IT OVER'}).click();await expect(page.getByRole('link',{name:/OPEN THE EMAIL/})).toHaveAttribute('href',/Synthetic%20test%20business/);
+  status=405;await page.getByRole('button',{name:'Send my inquiry'}).click();await expect(page.getByRole('link',{name:/OPEN THE EMAIL/})).toHaveAttribute('href',/Synthetic%20test%20business/);
   await page.getByRole('button',{name:/BACK TO YOUR MESSAGE/}).click();status=200;
-  await page.getByRole('button',{name:'SEND IT OVER'}).click();await expect(page.getByText('MESSAGE RECEIVED',{exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'Send my inquiry'}).click();await expect(page.getByText('MESSAGE RECEIVED',{exact:true})).toBeVisible();
   expect(await page.evaluate(()=>window.qaEvents.filter(e=>e[1]==='generate_lead').map(e=>e[2]))).toEqual([{form:'project-starter'}]);
   expect(payload.get('business')).toBe('Synthetic test business');expect(payload.get('need')).toBe('Website Care');expect(errors).toEqual([]);
 });

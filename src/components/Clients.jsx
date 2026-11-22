@@ -14,10 +14,6 @@ export default function Clients({ onOpen }) {
 
   return (
     <section id="clients" className="clients section-pad on-dark" data-guide="guide" aria-labelledby="clients-title">
-      <div className="section-top">
-        <p className="section-tag">[ 02 / CLIENT WORK ]</p>
-        <span>REAL CLIENTS. THEIR WORDS.</span>
-      </div>
       <h2 id="clients-title" className="clients-title reveal">
         REAL CLIENTS. <em>LIVE WEBSITES.</em>
       </h2>

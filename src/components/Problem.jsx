@@ -13,10 +13,6 @@ export default function Problem() {
       </div>
 
       <section id="problem" className="problem section-pad on-dark" aria-labelledby="problem-title" data-guide="problem">
-        <div className="section-top">
-          <p className="section-tag">[ 01 / THE PROBLEM ]</p>
-          <span>IT’S NOT YOU. IT’S THE WEBSITE.</span>
-        </div>
         <h2 id="problem-title" className="display-head reveal">
           GOOD BUSINESS.
           <br />

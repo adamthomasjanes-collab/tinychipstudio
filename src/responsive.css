@@ -254,14 +254,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   }
 }
 
-/* Keep the exact location visible even with the phone menu closed. */
-.nav-identity { display: flex; align-items: center; gap: clamp(8px, 1.4vw, 22px); min-width: 0; }
-.nav-location {
-  border-left: 2px solid #2448c4;
-  padding-left: .6em;
-  color: #213c9b;
-  font: 700 .875rem/1.2 var(--mono);
-}
 .header .nav a[aria-current="location"] .nav-label {
   text-decoration: underline;
   text-underline-offset: .24em;
@@ -271,5 +263,24 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 }
 @media (max-width: 420px) {
   .header { gap: 6px; }
-  .nav-location { font-size: .8125rem; }
+}
+
+.pricing-routes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  padding: 0;
+  list-style: none;
+}
+.pricing-routes a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+#ownership-cancellation, .website-options article[id] { scroll-margin-top: 16px; }
+@media (max-width: 700px) {
+  .pricing-routes { flex-direction: column; gap: 0; }
 }

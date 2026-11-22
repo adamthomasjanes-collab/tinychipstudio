@@ -32,10 +32,6 @@ export default function Work({ onOpen }) {
 
   return (
     <section id="work" className="work section-pad on-dark" data-guide="work" aria-labelledby="work-title">
-      <div className="section-top">
-        <p className="section-tag">[ 03 / BEFORE &amp; AFTER ]</p>
-        <span>WHAT WE CHANGED. AND WHY.</span>
-      </div>
       <div className="work-heading">
       <div className="work-heading-copy">
       <h2 id="work-title" className="display-head reveal">

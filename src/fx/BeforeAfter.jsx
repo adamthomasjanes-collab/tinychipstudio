@@ -113,7 +113,7 @@ export default function BeforeAfter({ before, after, label, url, eager = false, 
           <span className={`ba-chip ${walk === 'left' ? 'is-back' : ''}`}>
             <Chip pose={walk ? 'walk' : 'idle'} moving={Boolean(walk)} />
           </span>
-          {!touched && <span className="ba-hint">DRAG ME</span>}
+          {!touched && <span className="ba-hint">Slide to compare</span>}
         </div>
         <input
           ref={inputRef}

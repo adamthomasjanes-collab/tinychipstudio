@@ -46,7 +46,7 @@ export default function Hero({ onOpen }) {
         </div>
         <div className="chief-links">
           <a href={chief.url} target="_blank" rel="noopener noreferrer" data-track="client-open-chief-dj">
-            Visit Steve’s website ↗<span className="visually-hidden"> (opens in a new tab)</span>
+            Visit CHIEF DJ’s live site ↗<span className="visually-hidden"> (opens in a new tab)</span>
           </a>
           <button type="button" onClick={(event) => onOpen(chief, event.currentTarget)}>Read the case study</button>
         </div>

@@ -56,12 +56,8 @@ export default function Process() {
   return (
     <>
       <section id="process" className="process section-pad" data-guide="plan" aria-labelledby="process-title">
-        <div className="section-top">
-          <p className="section-tag">[ 07 / HOW IT WORKS ]</p>
-          <span>A CLEAR PATH FORWARD.</span>
-        </div>
         <h2 id="process-title" className="display-head reveal">
-          THREE STEPS.
+          <span id="stakes">THREE STEPS.</span>
           <br />
           <em>A CLEAR WAY FORWARD.</em>
         </h2>

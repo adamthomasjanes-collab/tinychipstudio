@@ -9,10 +9,7 @@ export default function Services() {
       data-guide="services"
       aria-labelledby="services-title"
     >
-      <div className="section-top">
-        <p className="section-tag">[ 05 / WHAT’S INCLUDED ]</p>
-        <span>ATTRACT. CONVERT. UNDERSTAND.</span>
-      </div>
+      <p className="section-tag">Services</p>
       <div className="service-introduction">
         <h2 id="services-title" className="display-head reveal">
           GOOD BUSINESS.
@@ -95,8 +92,9 @@ export default function Services() {
           first.
         </p>
         <a className="text-link" href="#scorecard" data-track="scorecard">
-          FREE WEBSITE SCORECARD ↗
+          Take the free 2-minute website scorecard
         </a>
+        <p>No email needed to see your results.</p>
       </aside>
     </section>
   );

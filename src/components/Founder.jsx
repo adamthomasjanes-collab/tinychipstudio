@@ -23,7 +23,7 @@ export default function Founder() {
         <Chip pose="wave" className="founder-chip" />
       </div>
       <div className="founder-bio">
-        <p className="section-tag">WHO YOU’LL TALK TO</p>
+        <p className="section-tag">Who you’ll work with</p>
         <h2 id="founder-heading">
           ADAM THOMAS JANES<span className="period">.</span>
         </h2>

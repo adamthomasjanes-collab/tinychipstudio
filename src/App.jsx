@@ -15,7 +15,6 @@ import Work from "./components/Work";
 import Process from "./components/Process";
 import Pricing from "./components/Pricing";
 import Problem from "./components/Problem";
-import Stakes from "./components/Stakes";
 import AboutSection from "./components/AboutSection";
 import Faq from "./components/Faq";
 import Contact from "./components/Contact";
@@ -89,7 +88,6 @@ export default function App() {
           <Services />
           <Pricing />
           <Process />
-          <Stakes />
           <section className="marquee" aria-hidden="true">
             <div>
               TINY PIXELS ✳ BIG PRESENCE ✳ GOOD WORK ✳ CLEAR MESSAGE ✳ NEXT STEP

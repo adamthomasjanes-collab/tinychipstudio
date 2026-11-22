@@ -10,10 +10,7 @@ export default function Pricing() {
       data-guide="services"
       aria-labelledby="options-title"
     >
-      <div className="section-top">
-        <p className="section-tag">[ 06 / PRICING ]</p>
-        <span>PLANS & PRICES.</span>
-      </div>
+      <p className="section-tag">Pricing</p>
       <WebsiteOptions />
     </section>
   );

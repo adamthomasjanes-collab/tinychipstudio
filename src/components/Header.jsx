@@ -11,21 +11,6 @@ const links = [
   { href: '#process', label: 'PROCESS' },
   { href: '#faq', label: 'FAQ' },
 ];
-// Chapters own the main navigation; the location label names the section in view.
-const locations = {
-  top: ['Overview', 'top'],
-  problem: ['The problem', 'top'],
-  clients: ['Client work', 'clients'],
-  work: ['Before & after', 'clients'],
-  about: ['About', 'about'],
-  services: ['Services', 'services'],
-  'website-options': ['Pricing', 'website-options'],
-  process: ['Process', 'process'],
-  stakes: ['What’s at stake', 'process'],
-  faq: ['FAQ', 'faq'],
-  contact: ['Contact', 'contact'],
-  footer: ['Footer', null],
-};
 const PANELS = ['scorecard', 'book-call'];
 
 /**
@@ -39,14 +24,14 @@ const PANELS = ['scorecard', 'book-call'];
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [sectionId, setSectionId] = useState('top');
-  const [locationLabel, activeId] = locations[sectionId];
+  const activeId = { problem: 'top', work: 'clients' }[sectionId] ?? sectionId;
   const ref = useRef(null);
   const lock = useRef(null);
   const close = (event) => {
     setOpen(false);
     const id = event?.currentTarget?.getAttribute('href')?.slice(1);
     const target = id && document.getElementById(id);
-    if (id && locations[id]) {
+    if (target) {
       // Held until the scroll comes to rest (scrollend, or a quiet 200ms), 3s at most.
       lock.current = { until: performance.now() + 3000 };
       setSectionId(id);
@@ -99,7 +84,7 @@ export default function Header() {
       let current = 'top';
       for (const section of sections) {
         if (section.getBoundingClientRect().top > line) break;
-        if (locations[section.id]) current = section.id;
+        current = section.id;
       }
       if (max > 0 && window.scrollY >= max - 2) current = 'footer';
       const held = lock.current;
@@ -159,12 +144,9 @@ export default function Header() {
 
   return (
     <header className="header" ref={ref}>
-      <div className="nav-identity">
       <a aria-current={activeId === 'top' ? 'location' : undefined} className="brand" href="#top" onClick={close} aria-label="Tiny Chip Studio, back to top">
         <Logo />
       </a>
-      <span className="nav-location"><span className="visually-hidden">Current section: </span>{locationLabel}</span>
-      </div>
 
       <button
         type="button"

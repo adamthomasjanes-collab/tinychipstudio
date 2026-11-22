@@ -33,8 +33,8 @@ test('@mobile @social viewport contraction, scroll reversal and editing dock cle
   await expect(page.locator('.guide')).not.toBeVisible();
   await page.locator('#contact textarea').fill('Synthetic viewport check; never submitted.');
   await page.locator('#contact textarea').blur();
-  await page.getByRole('button',{name:'SEND IT OVER'}).scrollIntoViewIfNeeded();
-  const button=await page.getByRole('button',{name:'SEND IT OVER'}).boundingBox();
+  await page.getByRole('button',{name:'Send my inquiry'}).scrollIntoViewIfNeeded();
+  const button=await page.getByRole('button',{name:'Send my inquiry'}).boundingBox();
   const dock=await page.locator('.guide').boundingBox();
   if(dock)expect(button.y+button.height).toBeLessThanOrEqual(dock.y+2);
   await noOverflow(page);

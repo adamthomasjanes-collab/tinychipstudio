@@ -16,6 +16,11 @@ import {
 import { track, trackLead } from "../lib/track";
 import { tidy } from "../lib/typography";
 
+const needLabel = (value) => ({
+  "New website / not sure which plan": "I need a new website",
+  "Not sure yet": "Help me choose",
+}[value] ?? value);
+
 const EMPTY = {
   name: "",
   business: "",
@@ -252,7 +257,7 @@ export default function Contact() {
       aria-labelledby="contact-title"
     >
       <div className="contact-head">
-        <p className="section-tag">[ 10 / START A PROJECT ]</p>
+        <p className="section-tag">Start a project</p>
         <h2 id="contact-title" tabIndex={-1}>
           LET’S FIND <em>THE RIGHT FIT.</em>
         </h2>
@@ -396,11 +401,11 @@ export default function Contact() {
                   )}
                   {form.need && (
                     <span className="starter-chip">
-                      {form.need}
+                      {needLabel(form.need)}
                       <button
                         type="button"
                         onClick={() => clear("need")}
-                        aria-label={`Remove “${form.need}”`}
+                        aria-label={`Remove “${needLabel(form.need)}”`}
                       >
                         ×
                       </button>
@@ -466,7 +471,7 @@ export default function Contact() {
                         checked={form.need === n}
                         onChange={set("need")}
                       />
-                      {n}
+                      {needLabel(n)}
                     </label>
                   ))}
                 </div>
@@ -557,7 +562,7 @@ export default function Contact() {
                   className="button button-lime"
                   disabled={busy}
                 >
-                  {busy ? "SENDING…" : "SEND IT OVER"}{" "}
+                  {busy ? "SENDING…" : "Send my inquiry"}{" "}
                   <span aria-hidden="true">↗</span>
                 </button>
                 <p role="status">
@@ -613,9 +618,9 @@ export default function Contact() {
               href={SCORECARD_URL}
               data-track="scorecard"
             >
-              SCORE YOUR WEBSITE YOURSELF, FREE{" "}
-              <span aria-hidden="true">↗</span>
+              Take the free 2-minute website scorecard
             </a>
+            <small>No email needed to see your results.</small>
           </div>
           <div className="contact-details">
             <a href={mailto()}>{EMAIL} ↗</a>

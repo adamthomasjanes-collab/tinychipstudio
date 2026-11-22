@@ -54,7 +54,7 @@ export const care = {
   description:
     "Get a website you’re proud to share, with someone handling the hosting, upkeep and small updates.",
   detail: `$0 upfront build fee for qualifying projects. ${firstYear}`,
-  cta: "CHOOSE WEBSITE + CARE",
+  cta: "Ask about Care",
   comparison: [
     [
       "Website & technical care",
@@ -88,7 +88,7 @@ export const growth = {
     "Your website and ongoing care, plus a system for keeping inquiries organized, following up and seeing which opportunities turn into business.",
   detail: growthDisclosure,
   availability: growthAvailability,
-  cta: "EXPLORE WEBSITE + GROWTH",
+  cta: "Ask about Growth",
   comparison: [
     [
       "Website & technical care",
@@ -126,7 +126,7 @@ export const own = {
     "A distinctive website purchased outright. Agreed custom deliverables transfer after full payment, subject to third-party licenses. Choose your hosting and future provider.",
   detail:
     "No mandatory care subscription. Hosting and domain costs are separate; growth services can be scoped separately when appropriate.",
-  cta: "BUILD IT & OWN IT",
+  cta: "Ask about buying outright",
 };
 export const maintenance = {
   id: "existing-care",
@@ -138,7 +138,7 @@ export const maintenance = {
     "Technical care and minor updates after a review of your site, platform and access. WordPress hosting is outside our current active scope.",
   detail:
     "No new website build, full CRM setup, advanced automation, campaign management or complete Growth reporting package. Scope and costs are agreed separately.",
-  cta: "TALK ABOUT WEBSITE CARE",
+  cta: "Ask about care for my existing site",
 };
 export const monthlyOffers = [growth, care];
 export const offers = [...monthlyOffers, own, maintenance];
@@ -185,17 +185,17 @@ export const offerFaq = [
     a: "Straightforward small-business websites, generally up to five core pages. We review content, functionality, integrations and timing first. Complex commerce, custom applications, extensive copywriting and substantial integrations need a separate proposal. We agree revisions and a realistic schedule before work begins.",
   },
   {
-    group: "YOUR BUSINESS. YOUR CALL.",
+    group: "Ownership & cancellation",
     q: "Why is there a 12-month commitment?",
     a: `The qualifying $0 upfront arrangement includes design and development in a continuing service relationship. Website + Care has a ${pricing.months}-month initial agreement and ${money(total)} in first-year payments. Website + Growth also has a ${pricing.months}-month initial agreement, with ${money(growthTotal)} in first-year payments. These are ongoing services, not simply financing a ${money(pricing.build)} project.`,
   },
   {
-    group: "YOUR BUSINESS. YOUR CALL.",
+    group: "Ownership & cancellation",
     q: "Who controls my domain, content and website?",
     a: "Your domain and the content you provide remain yours. Build & Own custom deliverables transfer after full payment, subject to third-party licenses. For monthly plans, the timing and extent of website/source-code rights and offboarding deliverables must be defined in the written agreement before commitment.",
   },
   {
-    group: "YOUR BUSINESS. YOUR CALL.",
+    group: "Ownership & cancellation",
     q: "What happens if I leave or the initial year ends?",
     a: "The written agreement provided before you commit defines early exit, any agreed buyout, service choices after the initial year, offboarding and transferable licenses. We will walk through those details with you before you sign, including any costs and what you receive when services end. Your domain and supplied content remain yours.",
   },

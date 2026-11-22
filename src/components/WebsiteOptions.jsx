@@ -37,12 +37,16 @@ export default function WebsiteOptions() {
         }}
       />
       <div className="options-heading">
-        <p className="section-tag">TWO MONTHLY OPTIONS. YOUR CALL.</p>
         <h2 id="options-title">
           A STRONG START.
           <br />
           <em>ROOM TO GROW.</em>
         </h2>
+        <ul className="pricing-routes" aria-label="Website pricing options">
+          <li><a href="#website-care">Website + Care · {money(pricing.websiteMonthly)}/month</a></li>
+          <li><a href="#website-growth">Website + Growth · {money(pricing.growthMonthly)}/month</a></li>
+          <li><a href="#build-own">Buy once from {money(pricing.build)}</a></li>
+        </ul>
         <p>
           Website + Care keeps your website working for you. The extra{" "}
           {money(pricing.growthMonthly - pricing.websiteMonthly)}/month for
@@ -55,6 +59,7 @@ export default function WebsiteOptions() {
           <article
             className={`option option--${offer.id === "website-growth" ? "featured" : "care"}`}
             key={offer.id}
+            id={offer.id}
             data-offer={offer.id}
           >
             <p className="option-code">{offer.code}</p>
@@ -108,6 +113,7 @@ export default function WebsiteOptions() {
           <article
             className="options-existing"
             key={offer.id}
+            id={offer.id}
             data-offer={offer.id}
           >
             <div>
@@ -128,8 +134,8 @@ export default function WebsiteOptions() {
       </div>
       <div className="options-terms">
         <p>{terms}</p>
-        <a href="#faq">
-          SCOPE, OWNERSHIP & EXIT DETAILS <span aria-hidden="true">↓</span>
+        <a href="#ownership-cancellation">
+          Ownership & cancellation <span aria-hidden="true">↓</span>
         </a>
       </div>
     </div>

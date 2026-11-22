@@ -17,7 +17,7 @@ export default function Faq() {
       data-guide="faq"
     >
       <div className="faq-head">
-        <p className="section-tag">[ 09 / QUESTIONS ]</p>
+        <p className="section-tag">FAQ</p>
         <h2 id="faq-title" className="reveal">
           A LITTLE LESS
           <br />
@@ -46,6 +46,7 @@ export default function Faq() {
           <section
             className="faq-group"
             key={group.title}
+            id={group.title === "Ownership & cancellation" ? "ownership-cancellation" : undefined}
             aria-label={group.title}
           >
             <h3>{group.title}</h3>
